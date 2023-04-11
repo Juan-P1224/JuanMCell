@@ -17,6 +17,13 @@ const Login = () => {
         }
     }
 
+    function handleSumbit(){
+        let account = {user,password}
+        if(account){
+            console.log('account',account)
+        }
+    }
+
     console.log('usuario:',user)
     console.log('password', password)
     return( 
@@ -44,6 +51,9 @@ const Login = () => {
             }}
             handleChange={handleChange}
              />
+             <button onClick={( e )=> handleSumbit}>
+                Ingresar
+             </button>
         </div>
     )
 
