@@ -1,7 +1,9 @@
 .title-container {
-    color:black;
-    font-size:20px;
+    color:#36a1a8;
+    font-size:23px;
     text-align: center;
     font-weight: bold;
-
+    align-items: center;
+    margin-top: 5px;
+    margin: 0;
 }
