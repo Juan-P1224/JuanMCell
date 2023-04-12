@@ -26,6 +26,12 @@
     
 }
 
+.login-container button:active{
+    transform: scale(0.9);
+    background-color: #267379;
+}
+
+
 *{
     padding: 20px;
     margin: 0px 90px;
@@ -45,6 +51,5 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    
 }
 
