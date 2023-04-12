@@ -27,33 +27,45 @@ const Login = () => {
     console.log('usuario:',user)
     console.log('password', password)
     return( 
+        
         <div className='login-container'>
-            <Title text='Inicio de Sesión JuanMCell'/>
+            <Title text={
+                <div>
+                    <h1>JuanMCell</h1>
+                    <p>Iniciar sesión</p>
+                </div>
+            }/>
+
+
+            <div>
             <Label text='Usuario'/>
-            <Input
-            attribute={{
-                id:'usuario',
-                name:'usuario',
-                type:'text',
-                placeHolder:'ingrese su usuario'
 
-            }}
-            handleChange={handleChange}
-             />
-            <Label text='Contraseña'/>
-            <Input
-             attribute={{
-                id:'contraseña',
-                name:'contraseña',
-                type:'password',
-                placeHolder:'ingrese su contraseña'
+                <Input
+                attribute={{
+                    id:'usuario',
+                    name:'usuario',
+                    type:'text',
+                    placeHolder:'ingrese su usuario'
 
-            }}
-            handleChange={handleChange}
-             />
-             <button onClick={( e )=> handleSumbit}>
-                Ingresar
-             </button>
+                }}
+                handleChange={handleChange}
+                />
+                <Label text='Contraseña'/>
+                <Input
+                attribute={{
+                    id:'contraseña',
+                    name:'contraseña',
+                    type:'password',
+                    placeHolder:'ingrese su contraseña'
+
+                }}
+                handleChange={handleChange}
+                />
+                <button onClick={( e )=> handleSumbit}>
+                    Ingresar
+                </button>
+            </div>
+            
         </div>
     )
 
