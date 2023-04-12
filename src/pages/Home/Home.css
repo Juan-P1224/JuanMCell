@@ -1,3 +1,12 @@
 body{
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
+}
+
+.home-container{
+    font-family: sans-serif;
+}
+
+.home-container .titulo{
+    font-size: 150%;
+    text-align: center;
 }
