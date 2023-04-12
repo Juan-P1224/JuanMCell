@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './Login.css';
-import Title from './components/Title/Title';
-import Label from './components/Label/Label';
-import Input from './components/Input/Input';
+import Title from '../components/Title/Title';
+import Label from '../components/Label/Label';
+import Input from '../components/Input/Input';
 
 const Login = () => {
 

@@ -1,8 +1,8 @@
 import logo from './logo.svg';
-import React, { Component } from 'react'
-import './App.css';
-import Login from './pages/Login/Login'
-import './pages/Login/Login.css'
+import React, { Component } from 'react';
+import Login from './pages/Login/Login';
+//import Home from './pages/Home/Home';
+
 
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import MyForm from './MyForm';
