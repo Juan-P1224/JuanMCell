@@ -1,9 +1,14 @@
 body{
     background-color: rgb(255, 255, 255);
 }
+.home-container .titulo{
+    align-items: center;
+    text-align: center;
+    font-size: 100%;
+}
 
 .home-container{
-    font-family: sans-serif;
+    font-family:serif;
 }
 
 .home-container .icono-menu-lateral{
