@@ -1,5 +1,5 @@
 import React from 'react';
-import {Outlet, useNavigate} from 'react-router-dom';
+import {Outlet, useNavigate, useLocation} from 'react-router-dom';
 
 export const NavBar = () =>{
      

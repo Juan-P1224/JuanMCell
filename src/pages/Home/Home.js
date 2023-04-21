@@ -1,4 +1,4 @@
-/*
+
 const iconoMenu = document.querySelector('#icono_menu'), menu=document.querySelector('#menu');
 iconoMenu.addEventListener('click', (e)=>{
     menu.classList.toggle('active');
@@ -11,4 +11,4 @@ iconoMenu.addEventListener('click', (e)=>{
         e.target.setAttribute('src','/src/pages/components/Images/menu_lateral.png');
     }
 });
-*/
+
