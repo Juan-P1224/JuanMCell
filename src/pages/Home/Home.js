@@ -1,4 +1,4 @@
-
+/*
 const iconoMenu = document.querySelector('#icono_menu'), menu=document.querySelector('#menu');
 iconoMenu.addEventListener('click', (e)=>{
     menu.classList.toggle('active');
@@ -12,3 +12,4 @@ iconoMenu.addEventListener('click', (e)=>{
     }
 });
 
+*/

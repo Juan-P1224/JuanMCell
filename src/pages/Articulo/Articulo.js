@@ -49,15 +49,15 @@ class Articulo extends React.Component {
         this.setState({ modalEliminar: false });
     }
     insertar = () => {
-        var valorNuevo = { ...this.state.form };
+        let valorNuevo = { ...this.state.form };
         valorNuevo.id = this.state.data.length + 1;
-        var lista = this.state.data;
+        let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
     }
     editar = (dato) => {
-        var contador = 0;
-        var lista = this.state.data;
+        let contador = 0;
+        let lista = this.state.data;
         lista.map((registro) => {
             if (dato.id == registro.id) {
                 lista[contador].nombre = dato.nombre;
@@ -69,8 +69,8 @@ class Articulo extends React.Component {
         this.setState({ data: lista, modalEditar: false });
     }
     eliminar = (dato) => {
-        var contador = 0;
-            var lista = this.state.data;
+        let contador = 0;
+            let lista = this.state.data;
             lista.map((registro) => {
                 if (dato.id == registro.id) {
                     lista.splice(contador, 1);
@@ -82,12 +82,19 @@ class Articulo extends React.Component {
     render() {
         return (
             <>
+            <div className='articulo-container'>
+
+            
                 <Container>
-                    <br />
-                    <Button color='success' onClick={() => this.mostrarModalInsertar()}>Insertar</Button>
-                    <br /><br />
+                        <br />
+                        <Button color='none' className='btn-insertar' onClick={() => this.mostrarModalInsertar()}></Button>
+                        <br /><br />
+                    
 
                     <Table>
+                        <div className='nombre-columnas'>
+
+                        </div>
                         <thead><tr><th>Id</th>
                             <th>Nombre</th><th>Cantidad</th>
                             <th>Precio</th><th>Acciones</th>
@@ -99,9 +106,9 @@ class Articulo extends React.Component {
                                     <td>{elemento.nombre}</td>
                                     <td>{elemento.cantidad}</td>
                                     <td>{elemento.precio}</td>
-                                    <td><Button color="primary" onClick={() => this.mostrarModalEditar(elemento)}> Editar
-                                    </Button>{"           "}
-                                        <Button color="danger" onClick={() => this.mostrarModalEliminar(elemento)}>Eliminar</Button></td>
+                                    <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
+{"           "}
+                                        <Button color="none" className='btn-eliminar' onClick={() => this.mostrarModalEliminar(elemento)}></Button></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -217,15 +224,17 @@ class Articulo extends React.Component {
                     <ModalBody>
                         <FormGroup>
                             <label>
-                                Deseas eliminar el articulo seleccionado.
+                                ¿Deseas eliminar el articulo seleccionado?
                             </label>
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={() => this.eliminar(this.state.form)}>Eliminar</Button>
-                        <Button color="danger" onClick={() => this.ocultarModalEliminar()}>Cancelar</Button>
+                        
+                        <Button color="none" className='btn-aceptar1' onClick={() => this.eliminar(this.state.form)}></Button>
+                        <Button color="none" className='btn-cancelar1' onClick={() => this.ocultarModalEliminar()}></Button>
                     </ModalFooter>
                 </Modal>
+                </div>
             </>)
     }
 }

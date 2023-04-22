@@ -4,4 +4,98 @@ tbody{
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+
 }
+
+
+.btn-editar::before {
+    content: "";
+    background-image: url('https://cdn-icons-png.flaticon.com/512/1160/1160515.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+  }
+
+  .btn-eliminar::before {
+    content: "";
+    background-image: url('https://cdn-icons-png.flaticon.com/512/1214/1214926.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+
+  }
+
+  .btn-aceptar1::before {
+    content: "";
+    background-image: url('https://cdn-icons-png.flaticon.com/512/845/845646.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+
+  }
+  .btn-cancelar1::before {
+    content: "";
+    background-image: url('https://cdn-icons-png.flaticon.com/512/845/845648.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+
+  }
+  .btn-insertar::before{
+    content: "";
+    background-image: url('https://cdn-icons-png.flaticon.com/512/1125/1125728.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+    
+  }
+  .btn-insertar{
+    background-color: #36a1a8;
+    border-color: #36a1a8;
+  }
+  .btn-aceptar1{
+    background-color: white;
+    text-decoration-color: black;
+  }
+
+/*
+
+  .articulo-container{
+    background-image: url(https://hips.hearstapps.com/hmg-prod/images/best-smartphones-2022-1646858128.jpg?crop=1.00xw:1.00xh;0,0&resize=1920:*);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  */
+
+  
+
+
+
+  
