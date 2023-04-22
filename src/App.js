@@ -1,15 +1,16 @@
 //import Login from './pages/Login/Login';
 import React, { Component } from 'react';
+import Login from "./pages/Login/Login";
 import Articulo from './pages/Articulo/Articulo';
-
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import MyForm from './MyForm';
-
+import {Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <Articulo/>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/articulo" element={<Articulo />} />
+      </Routes>
     </div>
   );
 }

@@ -9,7 +9,7 @@ export const NavBar = () =>{
     console.log(state);
 
     const onLogout = () => {
-        navigate('/login',)
+        navigate('/Login',)
     }
 
 
@@ -20,7 +20,7 @@ export const NavBar = () =>{
             <link to='/' > Logo </link>
         </h1>
         <nav> 
-            <link to='/login' > Iniciar Sesion </link>
+            <link to='/Login' > Iniciar Sesion </link>
         </nav>
         </header>
         <Outlet/>

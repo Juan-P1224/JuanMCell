@@ -1,18 +1,17 @@
 import React from "react";
 import {Route, Routes} from "react-router-dom";
-import { NavBar } from "../NavBar";
-import {Home} from "../pages/Home/Home";
-import {Login} from "../pages/Login/Login";
+import Login from "../pages/Login/Login";
+import Articulo from "../pages/Articulo/Articulo";
+
 export const AppRouter = () => {
 
-return<>
+return(
+<>
  <Routes>
-    <Route path="/" element={<NavBar/>}>
-        <Route index element = {<Home/>}/>
-        <Route path="login" element = {<Login/>}/>
+    <Route path = "/" element={<Login/>}>
+    <Route path="/Articulo" element = {<Articulo/>}/>
     </Route>
- </Routes>
-
-</>
-
+  </Routes>
+  </>
+  );
 }
