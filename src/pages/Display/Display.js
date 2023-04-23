@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import './Articulo.css';
+import './Display.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 
 const data = [
-    { id: 1, nombre: "Cargador tipo C", cantidad: 5, precio: 20000 },
-    { id: 2, nombre: "Cable Tipo C", cantidad: 9, precio: 10000 },
+    { id: 1, referencia: "Oppo reno 5 lite", calidad: "OLED", cantidad: 5, precio: 120000 },
+    { id: 2, referencia: "OnePlus 11 5G", calidad: "AMOLED", cantidad: 9, precio: 90000 },
+    { id: 3, referencia: "Samsung j4 plus", calidad: "ORIGINAL", cantidad: 2, precio: 110000 },
 ];
 
-class Articulo extends React.Component {
+class Display extends React.Component {
     state = {
         data: data,
         form: {
             id: '',
-            nombre: '',
+            referencia: '',
+            calidad: '',
             cantidad: '',
             precio: ''
         },
@@ -96,14 +98,15 @@ class Articulo extends React.Component {
 
                         </div>
                         <thead><tr><th>Id</th>
-                            <th>Nombre</th><th>Cantidad</th>
+                            <th>Referencia</th><th>Calidad</th><th>Cantidad</th>
                             <th>Precio</th><th>Acciones</th>
                         </tr></thead>
                         <tbody>
                             {this.state.data.map((elemento) => (
                                 <tr>
                                     <td>{elemento.id}</td>
-                                    <td>{elemento.nombre}</td>
+                                    <td>{elemento.referencia}</td>
+                                    <td>{elemento.calidad}</td>
                                     <td>{elemento.cantidad}</td>
                                     <td>{elemento.precio}</td>
                                     <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
@@ -132,11 +135,21 @@ class Articulo extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Nombre:
+                                Referencia:
                             </label>
                             <input
                                 className="form-control"
-                                name="nombre"
+                                name="referencia"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Calidad:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="calidad"
                                 type="text" onChange={this.handleChange}
                             />
                         </FormGroup>
@@ -183,12 +196,22 @@ class Articulo extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Nombre:
+                                Referencia:
                             </label>
                             <input
                                 className="form-control"
-                                name="nombre"
-                                type="text" onChange={this.handleChange} value={this.state.form.nombre}
+                                name="referencia"
+                                type="text" onChange={this.handleChange} value={this.state.form.referencia}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Calidad:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="calidad"
+                                type="text" onChange={this.handleChange} value={this.state.form.calidad}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -224,7 +247,7 @@ class Articulo extends React.Component {
                     <ModalBody>
                         <FormGroup>
                             <label>
-                                ¿Deseas eliminar el articulo seleccionado con el id: {this.state.form.id}?
+                                ¿Deseas eliminar el display seleccionado con el id: {this.state.form.id}?
                             </label>
                         </FormGroup>
                     </ModalBody>
@@ -239,4 +262,4 @@ class Articulo extends React.Component {
     }
 }
 
-export default Articulo;
+export default Display;

@@ -20,7 +20,7 @@ const Login = () => {
             let account = JSON.stringify(ac);
             localStorage.setItem('account',account);
             setIsLogin(true);
-            navigate('/articulo');
+            navigate('/display');
         }else{
             setIsLogin(false);
         }
