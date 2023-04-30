@@ -14,6 +14,9 @@ root.render(
   </React.StrictMode>
 );
 
+
+
+
 /*const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
@@ -50,7 +53,7 @@ app.get('/productos', (req, res) => {
 app.get('/productos/:id', (req, res) => {
   connection.query('SELECT * FROM productos WHERE id = ?', [req.params.id], (err, rows) => {
     if (err) throw err;
-    res.send(rows[0]);
+    res.send(rows[0])
   });
 });
 */

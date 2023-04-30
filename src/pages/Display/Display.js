@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Display.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigation from '../components/Navigation/Navigation';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 
 const data = [
@@ -45,7 +46,7 @@ class Display extends React.Component {
         this.setState({ modalEditar: false });
     }
     mostrarModalEliminar = (registro) => {
-        this.setState({ modalEliminar: true, form: registro});
+        this.setState({ modalEliminar: true, form: registro });
     }
     ocultarModalEliminar = () => {
         this.setState({ modalEliminar: false });
@@ -72,26 +73,30 @@ class Display extends React.Component {
     }
     eliminar = (dato) => {
         let contador = 0;
-            let lista = this.state.data;
-            lista.map((registro) => {
-                if (dato.id == registro.id) {
-                    lista.splice(contador, 1);
-                }
-                contador++;
-            });
-            this.setState({ data: lista, modalEliminar: false});     
+        let lista = this.state.data;
+        lista.map((registro) => {
+            if (dato.id == registro.id) {
+                lista.splice(contador, 1);
+            }
+            contador++;
+        });
+        this.setState({ data: lista, modalEliminar: false });
     }
     render() {
-        return (
-            <>
-            <div className='articulo-container'>
+        console.log('El componente Display se está renderizando');
 
+        return (
             
+            <>
+            <Navigation>
+            <div className='display-container'>
+
+
                 <Container>
-                        <br />
-                        <Button color='none' className='btn-insertar' onClick={() => this.mostrarModalInsertar()}></Button>
-                        <br /><br />
-                    
+                    <br />
+                    <Button color='none' className='btn-insertar' onClick={() => this.mostrarModalInsertar()}></Button>
+                    <br /><br />
+
 
                     <Table>
                         <div className='nombre-columnas'>
@@ -110,7 +115,7 @@ class Display extends React.Component {
                                     <td>{elemento.cantidad}</td>
                                     <td>{elemento.precio}</td>
                                     <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
-{"           "}
+                                        {"           "}
                                         <Button color="none" className='btn-eliminar' onClick={() => this.mostrarModalEliminar(elemento)}></Button></td>
                                 </tr>
                             ))}
@@ -252,12 +257,14 @@ class Display extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        
+
                         <Button color="none" className='btn-aceptar1' onClick={() => this.eliminar(this.state.form)}></Button>
                         <Button color="none" className='btn-cancelar1' onClick={() => this.ocultarModalEliminar()}></Button>
                     </ModalFooter>
                 </Modal>
                 </div>
+            </Navigation>
+                
             </>)
     }
 }

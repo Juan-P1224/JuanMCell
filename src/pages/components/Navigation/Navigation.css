@@ -1,0 +1,27 @@
+.navbar-nav {
+    display: flex;
+    justify-content: start;
+  }
+  
+  .nav-link {
+    margin-right: 1rem;
+    font-family: Arial, sans-serif;
+    text-decoration: none;
+    color: white;
+    font-size: 120%;
+  }
+  .navbar-dark .navbar-brand {
+    text-decoration: white;
+    text-decoration-color: white;
+  }
+  .nav-link:hover{
+    color:aqua;
+    transform: scale(1.05);
+    filter: brightness(1.7);
+  }
+  .nav-link:active{
+    transform: scale(0.9);
+    opacity: 0.8;
+    color:aqua;
+  }
+  
