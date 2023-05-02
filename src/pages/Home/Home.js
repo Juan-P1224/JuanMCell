@@ -1,15 +1,39 @@
-/*
-const iconoMenu = document.querySelector('#icono_menu'), menu=document.querySelector('#menu');
-iconoMenu.addEventListener('click', (e)=>{
-    menu.classList.toggle('active');
-    document.body.classList.toggle('opacity');
+import React, { useState } from 'react';
+import './Home.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigation from '../components/Navigation/Navigation';
 
-    const rutaActual = e.target.getAttribute('src');
-    if(rutaActual=='/src/pages/components/Images/menu_lateral.png'){
-        e.target.setAttribute('src','/src/pages/components/Images/menu_lateral2.png');
-    }else{
-        e.target.setAttribute('src','/src/pages/components/Images/menu_lateral.png');
-    }
-});
+class Home extends React.Component{
+    render(){
+        return(
+            <>
+            <Navigation />
+            <div className="home-container">
+            <html lang="es">
+            <head>
+            <meta charset="utf-8" />
+            <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="theme-color" content="#000000" />
+            <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+            <link rel="stylesheet" href="./style.css" />
+        
+            <title>JuanMCell</title>
+            </head>
+            <body>
+            <header>
 
-*/
+                
+            </header>
+            <div id="display-container"></div>
+            </body>
+        </html>
+            </div>
+            </>
+            
+        
+        );
+        }
+}
+
+  export default Home;

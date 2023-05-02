@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Articulo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navigation from '../components/Navigation/Navigation';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 
 const data = [
@@ -82,9 +83,10 @@ class Articulo extends React.Component {
     render() {
         return (
             <>
+            <Navigation>
             <div className='articulo-container'>
 
-            
+                            
                 <Container>
                         <br />
                         <Button color='none' className='btn-insertar' onClick={() => this.mostrarModalInsertar()}></Button>
@@ -107,7 +109,7 @@ class Articulo extends React.Component {
                                     <td>{elemento.cantidad}</td>
                                     <td>{elemento.precio}</td>
                                     <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
-{"           "}
+                {"           "}
                                         <Button color="none" className='btn-eliminar' onClick={() => this.mostrarModalEliminar(elemento)}></Button></td>
                                 </tr>
                             ))}
@@ -235,6 +237,8 @@ class Articulo extends React.Component {
                     </ModalFooter>
                 </Modal>
                 </div>
+            </Navigation>
+            
             </>)
     }
 }

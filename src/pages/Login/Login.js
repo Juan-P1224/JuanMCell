@@ -5,8 +5,11 @@ import Label from '../components/Label/Label';
 import Input from '../components/Input/Input';
 import {useNavigate} from 'react-router-dom';
 
+
 const Login = () => {
 
+    
+    
     const [user,setUser] = useState('');
     const [password,setPassword] = useState('');
     const [isLogin,setIsLogin] = useState(false);
@@ -20,7 +23,7 @@ const Login = () => {
             let account = JSON.stringify(ac);
             localStorage.setItem('account',account);
             setIsLogin(true);
-            navigate('/display');
+            navigate('/home');
         }else{
             setIsLogin(false);
         }
@@ -48,8 +51,8 @@ const Login = () => {
         }
     };
     return( 
-        
-        <div className='login-container'>
+        <div className='bodyLogin'>
+            <div className='login-container'>
             <Title text={
                 <div>
                     <h1>JuanMCell</h1>
@@ -88,7 +91,10 @@ const Login = () => {
             </div>
             
         </div>
-    )
+
+        </div>)
+        
+        
 
 };
 export default Login;
