@@ -5,7 +5,7 @@ import Articulo from './pages/Articulo/Articulo';
 import {Route, Routes } from 'react-router-dom';
 import Display from './pages/Display/Display';
 import Home from './pages/Home/Home';
-
+import Contabilidad from './pages/Contabilidad/Contabilidad';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
         <Route path="/articulo" element={<Articulo />} />
         <Route path="/display" element={<Display />} />
         <Route path="/home" element={<Home/>}/>
+        <Route path="/contabilidad" element={<Contabilidad/>}/>
       </Routes>
     </div>
   );

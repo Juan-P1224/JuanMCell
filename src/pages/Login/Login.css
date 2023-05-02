@@ -65,10 +65,8 @@
     
 }
 
-
-
 body{
-    background-image: url(https://hips.hearstapps.com/hmg-prod/images/best-smartphones-2022-1646858128.jpg?crop=1.00xw:1.00xh;0,0&resize=1920:*);
+    background-image: url('../components/Images/background.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
