@@ -2,13 +2,20 @@
     display: flex;
     justify-content: start;
   }
+  .navbar-brand{
+    display: flex;
+    align-items: center;
+  }
+  .navbar-brand img {
+    margin-right: 10px;
+  }
   
   .nav-link {
     margin-right: 1rem;
     font-family: Arial, sans-serif;
     text-decoration: none;
     color: white;
-    font-size: 120%;
+    font-size: 150%;
   }
   .navbar-dark .navbar-brand {
     text-decoration: white;
@@ -24,4 +31,11 @@
     opacity: 0.8;
     color:aqua;
   }
+  .nav-link.active {
+    color: aqua;
+    transform: scale(1.2);
+  }
+.inicio{
+  font-size: 150%;
+}
   
