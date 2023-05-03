@@ -70,7 +70,7 @@ class Articulo extends React.Component {
     }
     insertar = () => {
         let valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.data.idGenerado;
+        valorNuevo.id = this.state.idGenerado;
         let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
@@ -190,7 +190,7 @@ class Articulo extends React.Component {
                             <input
                                 className="form-control"
                                 readOnly
-                                type="text" value={this.state.data.idGenerado}
+                                type="text" value={this.state.idGenerado}
                             />
                         </FormGroup>
                         <FormGroup>
