@@ -23,6 +23,7 @@ class Display extends React.Component {
         modalInsertar: false,
         modalEditar: false,
         modalEliminar: false,
+        idGenerado: '',
     };
 
     handleChange = e => {
@@ -35,6 +36,8 @@ class Display extends React.Component {
     }
     mostrarModalInsertar = () => {
         this.setState({ modalInsertar: true });
+        this.generarId();
+
     }
     ocultarModalInsertar = () => {
         this.setState({ modalInsertar: false });
@@ -53,7 +56,7 @@ class Display extends React.Component {
     }
     insertar = () => {
         let valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.data.length + 1;
+        valorNuevo.id = this.state.idGenerado;
         let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
@@ -81,6 +84,16 @@ class Display extends React.Component {
             contador++;
         });
         this.setState({ data: lista, modalEliminar: false });
+    }
+    generarId = () =>{
+        let idNuevo = this.state.data.length + 1;;
+        let lista = this.state.data;
+        lista.map((registro) =>{
+            if (idNuevo == registro.id){
+                idNuevo = idNuevo + 1;
+            }
+        })
+        this.state.idGenerado = idNuevo;
     }
     render() {
         console.log('El componente Display se está renderizando');
@@ -135,7 +148,7 @@ class Display extends React.Component {
                             <input
                                 className="form-control"
                                 readOnly
-                                type="text" value={this.state.data.length + 1}
+                                type="text" value={this.state.idGenerado}
                             />
                         </FormGroup>
                         <FormGroup>
