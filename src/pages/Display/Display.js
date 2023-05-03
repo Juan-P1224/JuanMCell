@@ -199,7 +199,7 @@ class Display extends React.Component {
                 </Modal>
                 <Modal isOpen={this.state.modalEditar}>
                     <ModalHeader>
-                        <div><h3>Editar Registro</h3></div>
+                        <div><h3>Editar Display</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
