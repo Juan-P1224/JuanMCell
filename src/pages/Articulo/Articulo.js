@@ -14,7 +14,8 @@ class Articulo extends React.Component {
             id: '',
             nombre: '',
             cantidad: '',
-            precio: ''
+            precio: '',
+            idGenerado:' '
         },
         modalInsertar: false,
         modalEditar: false,
@@ -53,6 +54,7 @@ class Articulo extends React.Component {
     }
     ocultarModalInsertar = () => {
         this.setState({ modalInsertar: false });
+        this.generarId();
     }
     mostrarModalEditar = (registro) => {
         this.setState({ modalEditar: true, form: registro });
@@ -68,7 +70,7 @@ class Articulo extends React.Component {
     }
     insertar = () => {
         let valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.data.length + 1;
+        valorNuevo.id = this.state.data.idGenerado;
         let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
@@ -138,6 +140,7 @@ class Articulo extends React.Component {
         })
         this.state.idGenerado = idNuevo;
     }
+
     render() {
         return (
             <>
@@ -187,7 +190,7 @@ class Articulo extends React.Component {
                             <input
                                 className="form-control"
                                 readOnly
-                                type="text" value={this.state.data.length + 1}
+                                type="text" value={this.state.data.idGenerado}
                             />
                         </FormGroup>
                         <FormGroup>
