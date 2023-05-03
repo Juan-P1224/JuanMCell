@@ -1,39 +1,39 @@
-import React, { useState } from 'react';
-import './Home.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigation from '../components/Navigation/Navigation';
+import React, { useState, useEffect } from "react";
+import "./Home.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Navigation from "../components/Navigation/Navigation";
+import { useLocation } from "react-router-dom";
 
-class Home extends React.Component{
-    render(){
-        return(
-            <>
-            <Navigation />
-            <div className="home-container">
-            <html lang="es">
-            <head>
-            <meta charset="utf-8" />
-            <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta name="theme-color" content="#000000" />
-            <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-            <link rel="stylesheet" href="./style.css" />
+const Home = () => {
+  const location = useLocation();
+  const isLogin = location.state?.isLogin;
+
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAlert(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div>
+      {isLogin && showAlert && (
+        <div className="alert-container1">
+          <p>Has iniciado sesión correctamente</p>
+        </div>
         
-            <title>JuanMCell</title>
-            </head>
-            <body>
-            <header>
+      )
+      }
+      <Navigation>
 
-                
-            </header>
-            <div id="display-container"></div>
-            </body>
-        </html>
-            </div>
-            </>
-            
-        
-        );
-        }
-}
+      </Navigation>
+      
+    </div>
+    
+  );
+};
 
-  export default Home;
+export default Home;
