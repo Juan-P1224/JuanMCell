@@ -4,21 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../components/Navigation/Navigation';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 
-const data = [
-    { id: 1, referencia: "Oppo reno 5 lite", calidad: "OLED", cantidad: 5, precio: 120000 },
-    { id: 2, referencia: "OnePlus 11 5G", calidad: "AMOLED", cantidad: 9, precio: 90000 },
-    { id: 3, referencia: "Samsung j4 plus", calidad: "ORIGINAL", cantidad: 2, precio: 110000 },
-];
-
 class Display extends React.Component {
     state = {
-        data: data,
+        data: [],
         form: {
             id: '',
+            marca: '',
             referencia: '',
-            calidad: '',
+            tipo: '',
             cantidad: '',
-            precio: ''
+            precio: '',
+            costoProveedor:''
         },
         modalInsertar: false,
         modalEditar: false,
@@ -54,21 +50,34 @@ class Display extends React.Component {
     ocultarModalEliminar = () => {
         this.setState({ modalEliminar: false });
     }
+    setearAtributos = () => {
+        this.state.form.marca = '';
+        this.state.form.referencia = '';
+        this.state.form.tipo = '';
+        this.state.form.cantidad = '';
+        this.state.form.precio = '';
+        this.state.form.costoProveedor = '';
+    }
     insertar = () => {
         let valorNuevo = { ...this.state.form };
         valorNuevo.id = this.state.idGenerado;
         let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
+        this.setearAtributos();
     }
     editar = (dato) => {
         let contador = 0;
         let lista = this.state.data;
         lista.map((registro) => {
             if (dato.id == registro.id) {
-                lista[contador].nombre = dato.nombre;
+                lista[contador].marca = dato.marca;
+                lista[contador].referencia = dato.referencia;
+                lista[contador].tipo = dato.tipo;
                 lista[contador].cantidad = dato.cantidad;
+                lista[contador].costoProveedor = dato.costoProveedor;
                 lista[contador].precio = dato.precio;
+                this.setearAtributos();
             }
             contador++;
         });
@@ -97,7 +106,6 @@ class Display extends React.Component {
     }
     render() {
         console.log('El componente Display se está renderizando');
-
         return (
             
             <>
@@ -115,17 +123,19 @@ class Display extends React.Component {
                         <div className='nombre-columnas'>
 
                         </div>
-                        <thead><tr><th>Id</th>
-                            <th>Referencia</th><th>Calidad</th><th>Cantidad</th>
+                        <thead><tr><th>Id</th><th>Marca</th>
+                            <th>Referencia</th><th>Tipo</th><th>Cantidad</th><th>Costo Proveedor</th>
                             <th>Precio</th><th>Acciones</th>
                         </tr></thead>
                         <tbody>
                             {this.state.data.map((elemento) => (
                                 <tr>
                                     <td>{elemento.id}</td>
+                                    <td>{elemento.marca}</td>
                                     <td>{elemento.referencia}</td>
-                                    <td>{elemento.calidad}</td>
+                                    <td>{elemento.tipo}</td>
                                     <td>{elemento.cantidad}</td>
+                                    <td>{elemento.costoProveedor}</td>
                                     <td>{elemento.precio}</td>
                                     <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
                                         {"           "}
@@ -138,7 +148,7 @@ class Display extends React.Component {
 
                 <Modal isOpen={this.state.modalInsertar}>
                     <ModalHeader>
-                        <div><h3>Insertar Registro</h3></div>
+                        <div><h3>Insertar Display</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -153,6 +163,16 @@ class Display extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
+                                Marca:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="marca"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
                                 Referencia:
                             </label>
                             <input
@@ -163,11 +183,11 @@ class Display extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Calidad:
+                                Tipo:
                             </label>
                             <input
                                 className="form-control"
-                                name="calidad"
+                                name="tipo"
                                 type="text" onChange={this.handleChange}
                             />
                         </FormGroup>
@@ -178,6 +198,16 @@ class Display extends React.Component {
                             <input
                                 className="form-control"
                                 name="cantidad"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Costo proveedor:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="costoProveedor"
                                 type="text" onChange={this.handleChange}
                             />
                         </FormGroup>
@@ -214,6 +244,16 @@ class Display extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
+                                Marca:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="marca"
+                                type="text" onChange={this.handleChange} value={this.state.form.marca}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
                                 Referencia:
                             </label>
                             <input
@@ -224,12 +264,12 @@ class Display extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Calidad:
+                                Tipo:
                             </label>
                             <input
                                 className="form-control"
-                                name="calidad"
-                                type="text" onChange={this.handleChange} value={this.state.form.calidad}
+                                name="tipo"
+                                type="text" onChange={this.handleChange} value={this.state.form.tipo}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -240,6 +280,16 @@ class Display extends React.Component {
                                 className="form-control"
                                 name="cantidad"
                                 type="text" onChange={this.handleChange} value={this.state.form.cantidad}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Costo proveedor:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="costoProveedor"
+                                type="text" onChange={this.handleChange} value={this.state.form.costoProveedor}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -260,7 +310,7 @@ class Display extends React.Component {
                 </Modal>
                 <Modal isOpen={this.state.modalEliminar}>
                     <ModalHeader>
-                        <div><h3>Editar Registro</h3></div>
+                        <div><h3>Eliminar Display</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>

@@ -12,10 +12,12 @@ class Articulo extends React.Component {
         data: [],
         form: {
             id: '',
-            nombre: '',
+            categoria: '',
+            marca: '',
             cantidad: '',
             precio: '',
-            idGenerado:' '
+            idGenerado:' ',
+            costoProveedor:''
         },
         modalInsertar: false,
         modalEditar: false,
@@ -52,29 +54,45 @@ class Articulo extends React.Component {
         this.setState({ modalInsertar: true });
         this.generarId();
     }
+
     ocultarModalInsertar = () => {
         this.setState({ modalInsertar: false });
         this.generarId();
     }
+
     mostrarModalEditar = (registro) => {
         this.setState({ modalEditar: true, form: registro });
     }
+
     ocultarModalEditar = () => {
         this.setState({ modalEditar: false });
     }
+
     mostrarModalEliminar = (registro) => {
         this.setState({ modalEliminar: true, form: registro });
     }
+
     ocultarModalEliminar = () => {
         this.setState({ modalEliminar: false });
     }
+
+    setearAtributos = () => {
+        this.state.form.categoria = '';
+        this.state.form.marca= '';
+        this.state.form.cantidad = '';
+        this.state.form.precio = '';
+        this.state.form.costoProveedor = '';
+    }
+
     insertar = () => {
         let valorNuevo = { ...this.state.form };
         valorNuevo.id = this.state.idGenerado;
         let lista = this.state.data;
         lista.push(valorNuevo);
         this.setState({ data: lista, modalInsertar: false });
+        this.setearAtributos();
     }
+
     editar = (dato) => {
         fetch(`http://localhost:9000/api/${this.state.form.id}`, {
             method: 'PUT',
@@ -94,7 +112,7 @@ class Articulo extends React.Component {
                 this.setState({
                     data: updatedList,
                     modalEditar: false,
-                    form: { id: '', nombre: '', cantidad: '', precio: '' }
+                    form: { id: '', nombre: '', cantidad: '', costoProveedor: '', precio: '' }
                 });
             })
             .catch(error => console.error(error))
@@ -102,21 +120,23 @@ class Articulo extends React.Component {
         let lista = this.state.data;
         lista.map((registro) => {
             if (dato.id == registro.id) {
-                lista[contador].nombre = dato.nombre;
+                lista[contador].categoria = dato.categoria;
+                lista[contador].marca = dato.marca;
                 lista[contador].cantidad = dato.cantidad;
+                lista[contador].costoProveedor = dato.costoProveedor;
                 lista[contador].precio = dato.precio;
+                this.setearAtributos();
             }
             contador++;
         });
         this.setState({ data: lista, modalEditar: false });
     }
-    eliminar = (dato) => {
 
+    eliminar = (dato) => {
         fetch(`http://localhost:9000/api/${dato.id}`, {
             method: 'DELETE'
         })
             .then(response => response.json())
-            
                 let contador = 0;
                 let lista = this.state.data;
                 lista.map((registro) => {
@@ -126,10 +146,9 @@ class Articulo extends React.Component {
                     contador++;
                     
                 });
-                this.setState({ data: lista, modalEliminar: false });
-           
-       
+                this.setState({ data: lista, modalEliminar: false });   
     }
+
     generarId = () =>{
         let idNuevo = this.state.data.length + 1;;
         let lista = this.state.data;
@@ -146,8 +165,6 @@ class Articulo extends React.Component {
             <>
                 <Navigation>
                     <div className='articulo-container'>
-
-
                         <Container>
                             <br />
                             <Button color='none' className='btn-insertar' onClick={() => this.mostrarModalInsertar()}></Button>
@@ -159,15 +176,18 @@ class Articulo extends React.Component {
 
                                 </div>
                                 <thead><tr><th>Id</th>
-                                    <th>Nombre</th><th>Cantidad</th>
+                                    <th>Categoria</th><th>Marca</th><th>Cantidad</th>
+                                    <th>Costo Proveedor</th>
                                     <th>Precio</th><th>Acciones</th>
                                 </tr></thead>
                                 <tbody>
                                     {this.state.data.map((elemento) => (
                                         <tr>
                                             <td>{elemento.id}</td>
-                                            <td>{elemento.nombre}</td>
+                                            <td>{elemento.categoria}</td>
+                                            <td>{elemento.marca}</td>
                                             <td>{elemento.cantidad}</td>
+                                            <td>{elemento.costoProveedor}</td>
                                             <td>{elemento.precio}</td>
                                             <td><Button color="none" className="btn-editar" onClick={() => this.mostrarModalEditar(elemento)}></Button>
                                                 {"           "}
@@ -180,7 +200,7 @@ class Articulo extends React.Component {
 
                 <Modal isOpen={this.state.modalInsertar}>
                     <ModalHeader>
-                        <div><h3>Insertar Registro</h3></div>
+                        <div><h3>Insertar Articulo</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -195,11 +215,21 @@ class Articulo extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Nombre:
+                                Categoria:
                             </label>
                             <input
                                 className="form-control"
-                                name="nombre"
+                                name="categoria"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Marca:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="marca"
                                 type="text" onChange={this.handleChange}
                             />
                         </FormGroup>
@@ -210,6 +240,16 @@ class Articulo extends React.Component {
                             <input
                                 className="form-control"
                                 name="cantidad"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Costo proveedor:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="costoProveedor"
                                 type="text" onChange={this.handleChange}
                             />
                         </FormGroup>
@@ -231,7 +271,7 @@ class Articulo extends React.Component {
                 </Modal>
                 <Modal isOpen={this.state.modalEditar}>
                     <ModalHeader>
-                        <div><h3>Editar Registro</h3></div>
+                        <div><h3>Editar Articulo</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -246,12 +286,22 @@ class Articulo extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>
-                                Nombre:
+                                Categoria:
                             </label>
                             <input
                                 className="form-control"
-                                name="nombre"
-                                type="text" onChange={this.handleChange} value={this.state.form.nombre}
+                                name="categoria"
+                                type="text" onChange={this.handleChange} value={this.state.form.categoria}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Marca:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="marca"
+                                type="text" onChange={this.handleChange} value={this.state.form.marca}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -262,6 +312,16 @@ class Articulo extends React.Component {
                                 className="form-control"
                                 name="cantidad"
                                 type="text" onChange={this.handleChange} value={this.state.form.cantidad}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <label>
+                                Costo proveedor:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="costoProveedor"
+                                type="text" onChange={this.handleChange} value={this.state.form.costoProveedor}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -282,7 +342,7 @@ class Articulo extends React.Component {
                 </Modal>
                 <Modal isOpen={this.state.modalEliminar}>
                     <ModalHeader>
-                        <div><h3>Editar Registro</h3></div>
+                        <div><h3>Eliminar Articulo</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
@@ -298,8 +358,7 @@ class Articulo extends React.Component {
                     </ModalFooter>
                 </Modal>
                 </div>
-            </Navigation>
-            
+            </Navigation>   
             </>)
     }
 }
