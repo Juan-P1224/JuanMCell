@@ -24,15 +24,25 @@ const Home = () => {
         <div className="alert-container1">
           <p>Has iniciado sesión correctamente</p>
         </div>
-        
+
       )
       }
       <Navigation>
-
+        <div className="buttonhome-container">
+          <a href="/display" className="btnhome btn-display">
+            Display
+          </a>
+          <a href="/articulo" className="btnhome btn-articulo">
+            Articulo
+          </a>
+          <a href="/contabilidad" className="btnhome btn-inventario">
+            Contabilidad
+          </a>
+        </div>
       </Navigation>
-      
+
     </div>
-    
+
   );
 };
 

@@ -8,15 +8,13 @@ body{
 }
 button:hover{
     filter: brightness(1.2);
-    transform: translateY(-5px);
+    transform: scale(1.1);
   }
   button{
-    background-color: transparent;
   }
 
   button:active{
     transform: scale(0.9);
-    background-color:transparent;
     filter: brightness(0.6);
     border: transparent;
   }
