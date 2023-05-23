@@ -6,4 +6,57 @@
     margin-top: 0;
     width: 100%;
   }
+
+  .btn-display{
+    background-image: url("https://cdn-icons-png.flaticon.com/512/186/186239.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 90%;
+  }
   
+  .btn-articulo{
+    background-image: url("https://cdn-icons-png.flaticon.com/512/3791/3791428.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 90%;
+  }
+
+  .btn-inventario{
+    background-image: url("https://cdn-icons-png.flaticon.com/512/2825/2825621.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-size: 90%;
+  }
+
+  .buttonhome-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 6%;
+    height: 100vh;
+  }
+  
+  .btnhome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50%;
+    margin: 5% 2%;
+    background-color: #cffff5;
+    border: none;
+    border-radius: 8%;
+    font-size: 300%;
+    font-weight: bold;
+    color: #005a66;
+    text-decoration: none;
+    box-shadow: 0 50px 50px rgba(0, 0, 0, 0.8);
+    filter: brightness(0.9);
+  }
+
+  .btnhome:hover{
+    transform: scale(1.05);
+    color:#1a8796;
+    filter: brightness(1);
+  }
