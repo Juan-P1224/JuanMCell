@@ -4,6 +4,7 @@
 }
 .button-alternar-articulo{
     padding: 1%;
+    
 }
 
 .button-alternar{
@@ -11,3 +12,17 @@
     
 }
 
+.btn-vender{
+    content: "";
+    background-image: url("https://cdn-icons-png.flaticon.com/512/2953/2953536.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    font-size: 0;
+}
