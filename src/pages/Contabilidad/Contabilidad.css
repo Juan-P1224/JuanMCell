@@ -26,3 +26,24 @@
     margin-right: 8px;
     font-size: 0;
 }
+.cajas {
+    display: flex;
+    padding: 2%;
+    width: 100%;
+    height: auto; /* En lugar de 120% para permitir que el contenido se ajuste */
+  }
+  
+  .caja-ganancia,
+  .caja-dinero {
+    margin: 1%;
+    background-color: white;
+    width: 40%;
+    height: auto; /* En lugar de 40% para permitir que el contenido se ajuste */
+  }
+  
+  .caja-ganancia p,
+  .caja-dinero p {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
