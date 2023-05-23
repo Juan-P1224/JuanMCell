@@ -32,13 +32,24 @@ class Contabilidad extends React.Component {
             showTable1: true,
             showTable2: false
         });
+
+        fetch('http://localhost:9000/display')
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
     };
+
+    
+
 
     handleShowTable2 = () => {
         this.setState({
             showTable1: false,
             showTable2: true
         });
+        
+        fetch('http://localhost:9000/api')
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
     };
 
     mostrarModalVender = (registro) => {
