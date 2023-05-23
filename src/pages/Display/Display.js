@@ -22,6 +22,12 @@ class Display extends React.Component {
         idGenerado: '',
     };
 
+    componentDidMount() {
+        fetch('http://localhost:9000/display')
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+    }
+
     handleChange = e => {
         this.setState({
             form: {
@@ -29,6 +35,32 @@ class Display extends React.Component {
                 [e.target.name]: e.target.value,
             }
         });
+    }
+
+    handleSubmit = () => {
+        let valorNuevo = { ...this.state.form };
+        valorNuevo.id = this.state.idGenerado;
+
+        if(valorNuevo.referencia === '' || valorNuevo.marca === '' 
+            || valorNuevo.precio === '' || valorNuevo.cantidad === '' || 
+            valorNuevo.costoProveedor === '' || valorNuevo.tipo === ''){
+            alert('Todos los campos son obligatorios')
+            return
+        }
+
+        const requestInit = {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({"referencia": valorNuevo.referencia, "marca": valorNuevo.marca, "cantidad": valorNuevo.cantidad, "precio": valorNuevo.precio, "costoProveedor": valorNuevo.costoProveedor, 
+            "tipo":valorNuevo.tipo, "id": valorNuevo.id})
+        }
+
+        fetch('http://localhost:9000/display', requestInit)
+        .then(res => res.json())
+        const lista = [...this.state.data, valorNuevo]
+        this.setState({ data: lista, modalInsertar: false })
+        this.setearAtributos()
+
     }
     mostrarModalInsertar = () => {
         this.setState({ modalInsertar: true });
@@ -67,16 +99,38 @@ class Display extends React.Component {
         this.setearAtributos();
     }
     editar = (dato) => {
+        fetch(`http://localhost:9000/display/${this.state.form.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.form)
+        })
+            .then(response => response.json())
+            .then(updatedItem => {
+                const updatedList = this.state.data.map(item => {
+                    if (item.id === updatedItem.id) {
+                        return updatedItem;
+                    }
+                    return item;
+                });
+                this.setState({
+                    data: updatedList,
+                    modalEditar: false,
+                    form: { id: '', marca: '', cantidad: '', costoProveedor: '', precio: '', tipo: '', referencia: '' }
+                });
+            })
+            .catch(error => console.error(error))
         let contador = 0;
         let lista = this.state.data;
         lista.map((registro) => {
             if (dato.id == registro.id) {
-                lista[contador].marca = dato.marca;
                 lista[contador].referencia = dato.referencia;
-                lista[contador].tipo = dato.tipo;
+                lista[contador].marca = dato.marca;
                 lista[contador].cantidad = dato.cantidad;
                 lista[contador].costoProveedor = dato.costoProveedor;
                 lista[contador].precio = dato.precio;
+                lista[contador].tipo = dato.tipo;
                 this.setearAtributos();
             }
             contador++;
@@ -84,6 +138,10 @@ class Display extends React.Component {
         this.setState({ data: lista, modalEditar: false });
     }
     eliminar = (dato) => {
+        fetch(`http://localhost:9000/display/${dato.id}`, {
+            method: 'DELETE'
+        })
+            .then(response => response.json())
         let contador = 0;
         let lista = this.state.data;
         lista.map((registro) => {
@@ -91,6 +149,7 @@ class Display extends React.Component {
                 lista.splice(contador, 1);
             }
             contador++;
+
         });
         this.setState({ data: lista, modalEliminar: false });
     }
@@ -223,7 +282,7 @@ class Display extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={() => this.insertar()}>Insertar</Button>
+                        <Button color="primary" onClick={() => this.handleSubmit()}>Insertar</Button>
                         <Button color="danger" onClick={() => this.ocultarModalInsertar()}>Cancelar</Button>
                     </ModalFooter>
                 </Modal>

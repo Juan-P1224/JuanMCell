@@ -43,6 +43,7 @@ class Articulo extends React.Component {
     handleSubmit = () => {
         let valorNuevo = { ...this.state.form };
         valorNuevo.id = this.state.idGenerado;
+
         if(valorNuevo.categoria === '' || valorNuevo.marca === '' 
             || valorNuevo.precio === '' || valorNuevo.cantidad === '' || 
             valorNuevo.costoProveedor === ''){
