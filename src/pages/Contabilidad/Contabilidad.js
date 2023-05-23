@@ -7,61 +7,58 @@ import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, Mod
 
 
 class Contabilidad extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showTable1: false,
-            showTable2: false,
-            data: [],
-            modalVender: false,
-            form: {
-                id: '',
-                marca: '',
-                referencia: '',
-                tipo: '',
-                cantidad: '',
-                precio: '',
-                costoProveedor: ''
-            }
-        };
-    }
-
-    handleShowTable1 = () => {
-        this.setState({
-            showTable1: true,
-            showTable2: false
-        });
-
-        fetch('http://localhost:9000/display')
-            .then(response => response.json())
-            .then(data => this.setState({ data }));
-    };
-
+    state = {
+        showTable1: false,
+        showTable2: false,
+        data: [],
+        modalVender: false,
+        form: {
+          id: '',
+          marca: '',
+          referencia: '',
+          tipo: '',
+          cantidad: '',
+          precio: '',
+          costoProveedor: ''
+        }
+      };
     
-
-
-    handleShowTable2 = () => {
+      componentDidMount() {
+        this.handleShowTable1();
+      }
+    
+      handleShowTable1 = () => {
         this.setState({
-            showTable1: false,
-            showTable2: true
+          showTable1: true,
+          showTable2: false
         });
-        
+    
+        fetch('http://localhost:9000/display')
+          .then(response => response.json())
+          .then(data => this.setState({ data }));
+      };
+    
+      handleShowTable2 = () => {
+        this.setState({
+          showTable1: false,
+          showTable2: true
+        });
+    
         fetch('http://localhost:9000/api')
-            .then(response => response.json())
-            .then(data => this.setState({ data }));
-    };
-
-    mostrarModalVender = (registro) => {
+          .then(response => response.json())
+          .then(data => this.setState({ data }));
+      };
+    
+      mostrarModalVender = (registro) => {
         this.setState({ modalVender: true, form: registro });
-    };
-
-    ocultarModalVender = () => {
+      };
+    
+      ocultarModalVender = () => {
         this.setState({ modalVender: false });
-    };
-
-    vender = (form) => {
-    };
+      };
+    
+      vender = (form) => {
+      };
 
     render() {
         const { showTable1, showTable2, data, modalVender, form } = this.state;
@@ -108,6 +105,14 @@ class Contabilidad extends React.Component {
                                 ))}
                             </tbody>
                         </table>
+                        <div className='cajas'>
+                            <div className='caja-ganancia'>
+                                <p> Total ganancias: </p>
+                            </div>
+                            <div className='caja-dinero'>
+                                <p>Dinero en caja: </p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -140,6 +145,14 @@ class Contabilidad extends React.Component {
                             </tbody>
                             
                         </table>
+                        <div className='cajas'>
+                            <div className='caja-ganancia'>
+                                <p> Total ganancias: </p>
+                            </div>
+                            <div className='caja-dinero'>
+                                <p>Dinero en caja: </p>
+                            </div>
+                        </div>
                     </div>
                 )}
                 <Modal isOpen={modalVender}>
