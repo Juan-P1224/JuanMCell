@@ -16,8 +16,8 @@ class Articulo extends React.Component {
             marca: '',
             cantidad: '',
             precio: '',
-            idGenerado:' ',
-            costoProveedor:''
+            idGenerado: ' ',
+            costoProveedor: ''
         },
         modalInsertar: false,
         modalEditar: false,
@@ -40,14 +40,28 @@ class Articulo extends React.Component {
         });
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        axios.post('http://localhost:9000/api', this.state.form)
-          .then((response) => {
-            const newData = [...this.state.data, response.data];
-            this.setState({ data: newData, modalInsertar: false });
-          })
-          .catch((error) => console.error(error));
+    handleSubmit = () => {
+        let valorNuevo = { ...this.state.form };
+        valorNuevo.id = this.state.idGenerado;
+        if(valorNuevo.categoria === '' || valorNuevo.marca === '' 
+            || valorNuevo.precio === '' || valorNuevo.cantidad === '' || 
+            valorNuevo.costoProveedor === ''){
+            alert('Todos los campos son obligatorios')
+            return
+        }
+
+        const requestInit = {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({"categoria": valorNuevo.categoria, "marca": valorNuevo.marca, "cantidad": valorNuevo.cantidad, "precio": valorNuevo.precio, "costoProveedor": valorNuevo.costoProveedor, "id": valorNuevo.id})
+        }
+
+        fetch('http://localhost:9000/api', requestInit)
+        .then(res => res.json())
+        const lista = [...this.state.data, valorNuevo]
+        this.setState({ data: lista, modalInsertar: false })
+        this.setearAtributos()
+
     }
 
     mostrarModalInsertar = () => {
@@ -78,19 +92,23 @@ class Articulo extends React.Component {
 
     setearAtributos = () => {
         this.state.form.categoria = '';
-        this.state.form.marca= '';
+        this.state.form.marca = '';
         this.state.form.cantidad = '';
         this.state.form.precio = '';
         this.state.form.costoProveedor = '';
     }
 
     insertar = () => {
-        let valorNuevo = { ...this.state.form };
+        const valorNuevo = { ...this.state.form };
         valorNuevo.id = this.state.idGenerado;
-        let lista = this.state.data;
-        lista.push(valorNuevo);
-        this.setState({ data: lista, modalInsertar: false });
-        this.setearAtributos();
+
+        axios.post('http://localhost:9000/api', valorNuevo)
+            .then(response => {
+                console.log("API response:", response.data);
+                const lista = [...this.state.data, valorNuevo];
+                this.setState({ data: lista, modalInsertar: false });
+            })
+            .catch(error => console.error(error));
     }
 
     editar = (dato) => {
@@ -137,23 +155,23 @@ class Articulo extends React.Component {
             method: 'DELETE'
         })
             .then(response => response.json())
-                let contador = 0;
-                let lista = this.state.data;
-                lista.map((registro) => {
-                    if (dato.id == registro.id) {
-                        lista.splice(contador, 1);
-                    }
-                    contador++;
-                    
-                });
-                this.setState({ data: lista, modalEliminar: false });   
+        let contador = 0;
+        let lista = this.state.data;
+        lista.map((registro) => {
+            if (dato.id == registro.id) {
+                lista.splice(contador, 1);
+            }
+            contador++;
+
+        });
+        this.setState({ data: lista, modalEliminar: false });
     }
 
-    generarId = () =>{
+    generarId = () => {
         let idNuevo = this.state.data.length + 1;;
         let lista = this.state.data;
-        lista.map((registro) =>{
-            if (idNuevo == registro.id){
+        lista.map((registro) => {
+            if (idNuevo == registro.id) {
                 idNuevo = idNuevo + 1;
             }
         })
@@ -198,167 +216,167 @@ class Articulo extends React.Component {
                             </Table>
                         </Container>
 
-                <Modal isOpen={this.state.modalInsertar}>
-                    <ModalHeader>
-                        <div><h3>Insertar Articulo</h3></div>
-                    </ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <label>
-                                Id:
-                            </label>
-                            <input
-                                className="form-control"
-                                readOnly
-                                type="text" value={this.state.idGenerado}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Categoria:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="categoria"
-                                type="text" onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Marca:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="marca"
-                                type="text" onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Cantidad:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="cantidad"
-                                type="text" onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Costo proveedor:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="costoProveedor"
-                                type="text" onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Precio:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="precio"
-                                type="text" onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={() => this.insertar()}>Insertar</Button>
-                        <Button color="danger" onClick={() => this.ocultarModalInsertar()}>Cancelar</Button>
-                    </ModalFooter>
-                </Modal>
-                <Modal isOpen={this.state.modalEditar}>
-                    <ModalHeader>
-                        <div><h3>Editar Articulo</h3></div>
-                    </ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <label>
-                                Id:
-                            </label>
-                            <input
-                                className="form-control"
-                                readOnly
-                                type="text" value={this.state.form.id}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Categoria:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="categoria"
-                                type="text" onChange={this.handleChange} value={this.state.form.categoria}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Marca:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="marca"
-                                type="text" onChange={this.handleChange} value={this.state.form.marca}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Cantidad:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="cantidad"
-                                type="text" onChange={this.handleChange} value={this.state.form.cantidad}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Costo proveedor:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="costoProveedor"
-                                type="text" onChange={this.handleChange} value={this.state.form.costoProveedor}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>
-                                Precio:
-                            </label>
-                            <input
-                                className="form-control"
-                                name="precio"
-                                type="text" onChange={this.handleChange} value={this.state.form.precio}
-                            />
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={() => this.editar(this.state.form)}>Editar</Button>
-                        <Button color="danger" onClick={() => this.ocultarModalEditar()}>Cancelar</Button>
-                    </ModalFooter>
-                </Modal>
-                <Modal isOpen={this.state.modalEliminar}>
-                    <ModalHeader>
-                        <div><h3>Eliminar Articulo</h3></div>
-                    </ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <label>
-                                ¿Deseas eliminar el articulo seleccionado con el id: {this.state.form.id}?
-                            </label>
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        
-                        <Button color="none" className='btn-aceptar1' onClick={() => this.eliminar(this.state.form)}></Button>
-                        <Button color="none" className='btn-cancelar1' onClick={() => this.ocultarModalEliminar()}></Button>
-                    </ModalFooter>
-                </Modal>
-                </div>
-            </Navigation>   
+                        <Modal isOpen={this.state.modalInsertar}>
+                            <ModalHeader>
+                                <div><h3>Insertar Articulo</h3></div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <FormGroup>
+                                    <label>
+                                        Id:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        readOnly
+                                        type="text" value={this.state.idGenerado}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Categoria:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="categoria"
+                                        type="text" onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Marca:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="marca"
+                                        type="text" onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Cantidad:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="cantidad"
+                                        type="text" onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Costo proveedor:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="costoProveedor"
+                                        type="text" onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Precio:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="precio"
+                                        type="text" onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={() => this.handleSubmit()}>Insertar</Button>
+                                <Button color="danger" onClick={() => this.ocultarModalInsertar()}>Cancelar</Button>
+                            </ModalFooter>
+                        </Modal>
+                        <Modal isOpen={this.state.modalEditar}>
+                            <ModalHeader>
+                                <div><h3>Editar Articulo</h3></div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <FormGroup>
+                                    <label>
+                                        Id:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        readOnly
+                                        type="text" value={this.state.form.id}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Categoria:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="categoria"
+                                        type="text" onChange={this.handleChange} value={this.state.form.categoria}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Marca:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="marca"
+                                        type="text" onChange={this.handleChange} value={this.state.form.marca}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Cantidad:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="cantidad"
+                                        type="text" onChange={this.handleChange} value={this.state.form.cantidad}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Costo proveedor:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="costoProveedor"
+                                        type="text" onChange={this.handleChange} value={this.state.form.costoProveedor}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>
+                                        Precio:
+                                    </label>
+                                    <input
+                                        className="form-control"
+                                        name="precio"
+                                        type="text" onChange={this.handleChange} value={this.state.form.precio}
+                                    />
+                                </FormGroup>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={() => this.editar(this.state.form)}>Editar</Button>
+                                <Button color="danger" onClick={() => this.ocultarModalEditar()}>Cancelar</Button>
+                            </ModalFooter>
+                        </Modal>
+                        <Modal isOpen={this.state.modalEliminar}>
+                            <ModalHeader>
+                                <div><h3>Eliminar Articulo</h3></div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <FormGroup>
+                                    <label>
+                                        ¿Deseas eliminar el articulo seleccionado con el id: {this.state.form.id}?
+                                    </label>
+                                </FormGroup>
+                            </ModalBody>
+                            <ModalFooter>
+
+                                <Button color="none" className='btn-aceptar1' onClick={() => this.eliminar(this.state.form)}></Button>
+                                <Button color="none" className='btn-cancelar1' onClick={() => this.ocultarModalEliminar()}></Button>
+                            </ModalFooter>
+                        </Modal>
+                    </div>
+                </Navigation>
             </>)
     }
 }
