@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Display.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../components/Navigation/Navigation';
@@ -90,14 +90,7 @@ class Display extends React.Component {
         this.state.form.precio = '';
         this.state.form.costoProveedor = '';
     }
-    insertar = () => {
-        let valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.idGenerado;
-        let lista = this.state.data;
-        lista.push(valorNuevo);
-        this.setState({ data: lista, modalInsertar: false });
-        this.setearAtributos();
-    }
+   
     editar = (dato) => {
         fetch(`http://localhost:9000/display/${this.state.form.id}`, {
             method: 'PUT',

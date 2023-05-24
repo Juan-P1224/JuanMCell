@@ -11,6 +11,9 @@ class Contabilidad extends React.Component {
         showTable1: false,
         showTable2: false,
         data: [],
+        dinero: [],
+        beneficio: '',
+        cajaDinero: '',
         modalVender: false,
         modalVenderAccesorio: false,
         form: {
@@ -48,6 +51,13 @@ class Contabilidad extends React.Component {
         fetch('http://localhost:9000/display')
             .then(response => response.json())
             .then(data => this.setState({ data }));
+
+        fetch('http://localhost:9000/venta')
+            .then(response => response.json())
+            .then(dinero => this.setState({ dinero }));
+            this.listarDineroDisplay();
+
+    
     };
 
     handleShowTable2 = () => {
@@ -59,11 +69,36 @@ class Contabilidad extends React.Component {
         fetch('http://localhost:9000/api')
             .then(response => response.json())
             .then(data => this.setState({ data }));
+
+        fetch('http://localhost:9000/venta')
+            .then(response => response.json())
+            .then(dinero => this.setState({ dinero }));
+            this.listarDineroAccesorio();
     };
 
     mostrarModalVender = (registro) => {
         this.setState({ modalVender: true, form: registro });
     };
+
+    listarDineroDisplay = () => {
+        let lista = this.state.dinero;
+        lista.map((registro) => {
+            if (1 == registro.id) {
+                this.state.beneficio = registro.ganancia;
+                this.state.cajaDinero = registro.caja;
+            }
+        })
+    }
+
+    listarDineroAccesorio = () => {
+        let lista = this.state.dinero;
+        lista.map((registro) => {
+            if (2 == registro.id) {
+                this.state.beneficio = registro.ganancia;
+                this.state.cajaDinero = registro.caja;
+            }
+        })
+    }
 
     ocultarModalVender = () => {
         this.setState({ modalVender: false });
@@ -83,6 +118,22 @@ class Contabilidad extends React.Component {
         }
         const updatedCantidad = dato.cantidad - dato.venta;
         const updatedItem = { ...dato, cantidad: updatedCantidad };
+
+        let idAgregar = 2;
+        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta)+this.state.beneficio;
+        const updatedCaja = (dato.precio * dato.venta)+this.state.cajaDinero;
+        this.state.cajaDinero = updatedCaja;
+        this.state.beneficio = updatedGanancia;
+        
+
+        fetch(`http://localhost:9000/venta/${idAgregar}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
+        })
+        
 
         fetch(`http://localhost:9000/api/${dato.id}`, {
             method: 'PUT',
@@ -127,6 +178,21 @@ class Contabilidad extends React.Component {
         const updatedCantidad = dato.cantidad - dato.venta;
         const updatedItem = { ...dato, cantidad: updatedCantidad };
 
+        let idAgregar = 1;
+        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta)+this.state.beneficio;
+        const updatedCaja = (dato.precio * dato.venta)+this.state.cajaDinero;
+        this.state.cajaDinero = updatedCaja;
+        this.state.beneficio = updatedGanancia;
+        
+
+        fetch(`http://localhost:9000/venta/${idAgregar}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
+        })
+
         fetch(`http://localhost:9000/display/${dato.id}`, {
             method: 'PUT',
             headers: {
@@ -163,7 +229,7 @@ class Contabilidad extends React.Component {
 
 
     render() {
-        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form } = this.state;
+        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form, beneficio, cajaDinero} = this.state;
 
         return (
             <Navigation>
@@ -210,11 +276,11 @@ class Contabilidad extends React.Component {
                         <div className='cajas'>
                             <div className='caja-ganancia'>
                                 <p> Total ganancias: </p>
-                                <p>$0</p>
+                                <p>${beneficio}</p>
                             </div>
                             <div className='caja-dinero'>
                                 <p>Dinero en caja: </p>
-                                <p>$0</p>
+                                <p>${cajaDinero}</p>
                             </div>
                         </div>
                     </div>
@@ -241,8 +307,8 @@ class Contabilidad extends React.Component {
                                         <td>{elemento.categoria}</td>
                                         <td>{elemento.marca}</td>
                                         <td>{elemento.cantidad}</td>
-                                        <td>{elemento.precio}</td>
                                         <td>{elemento.costoProveedor}</td>
+                                        <td>{elemento.precio}</td>
                                         <td><Button color="none" className="btn-vender" onClick={() => this.mostrarModalVenderAccesorio(elemento)}>Vender</Button></td>
                                     </tr>
                                 ))}
@@ -252,11 +318,11 @@ class Contabilidad extends React.Component {
                         <div className='cajas'>
                             <div className='caja-ganancia'>
                                 <p> Total ganancias: </p>
-                                <p>$0</p>
+                                <p>${beneficio}</p>
                             </div>
                             <div className='caja-dinero'>
                                 <p>Dinero en caja: </p>
-                                <p>$0</p>
+                                <p>${cajaDinero}</p>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Articulo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 import Navigation from '../components/Navigation/Navigation';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
 
@@ -97,19 +96,6 @@ class Articulo extends React.Component {
         this.state.form.cantidad = '';
         this.state.form.precio = '';
         this.state.form.costoProveedor = '';
-    }
-
-    insertar = () => {
-        const valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.idGenerado;
-
-        axios.post('http://localhost:9000/api', valorNuevo)
-            .then(response => {
-                console.log("API response:", response.data);
-                const lista = [...this.state.data, valorNuevo];
-                this.setState({ data: lista, modalInsertar: false });
-            })
-            .catch(error => console.error(error));
     }
 
     editar = (dato) => {
