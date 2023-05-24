@@ -12,66 +12,129 @@ class Contabilidad extends React.Component {
         showTable2: false,
         data: [],
         modalVender: false,
+        modalVenderAccesorio: false,
         form: {
-          id: '',
-          marca: '',
-          referencia: '',
-          tipo: '',
-          cantidad: '',
-          precio: '',
-          costoProveedor: ''
+            id: '',
+            marca: '',
+            referencia: '',
+            tipo: '',
+            cantidad: 0,
+            precio: 0.0,
+            costoProveedor: 0.0,
+            categoria: '',
+            venta: 0,
         }
-      };
-    
-      componentDidMount() {
+    };
+
+    componentDidMount() {
         this.handleShowTable1();
-      }
-    
-      handleShowTable1 = () => {
+    }
+
+    handleChange = e => {
         this.setState({
-          showTable1: true,
-          showTable2: false
+            form: {
+                ...this.state.form,
+                [e.target.name]: e.target.value,
+            }
         });
-    
+    }
+
+    handleShowTable1 = () => {
+        this.setState({
+            showTable1: true,
+            showTable2: false
+        });
+
         fetch('http://localhost:9000/display')
-          .then(response => response.json())
-          .then(data => this.setState({ data }));
-      };
-    
-      handleShowTable2 = () => {
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+    };
+
+    handleShowTable2 = () => {
         this.setState({
-          showTable1: false,
-          showTable2: true
+            showTable1: false,
+            showTable2: true
         });
-    
+
         fetch('http://localhost:9000/api')
-          .then(response => response.json())
-          .then(data => this.setState({ data }));
-      };
-    
-      mostrarModalVender = (registro) => {
+            .then(response => response.json())
+            .then(data => this.setState({ data }));
+    };
+
+    mostrarModalVender = (registro) => {
         this.setState({ modalVender: true, form: registro });
-      };
-    
-      ocultarModalVender = () => {
+    };
+
+    ocultarModalVender = () => {
         this.setState({ modalVender: false });
-      };
-    
-      vender = (form) => {
-      };
+    };
+    mostrarModalVenderAccesorio = (registro) => {
+        this.setState({ modalVenderAccesorio: true, form: registro });
+    };
+
+    ocultarModalVenderAccesorio = () => {
+        this.setState({ modalVenderAccesorio: false });
+    };
+
+    vender = (dato) => {
+        if (this.state.form.cantidad < this.state.form.venta) {
+            alert('Se esta solitando una venta que sobre pasa lo que esta en el inventario')
+            return
+        }
+        const updatedCantidad = dato.cantidad - dato.venta;
+        const updatedItem = { ...dato, cantidad: updatedCantidad };
+
+        fetch(`http://localhost:9000/api/${dato.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "cantidad": updatedItem.cantidad })
+        })
+            .then(response => response.json())
+            .then(updatedItem => {
+                const updatedList = this.state.data.map(item => {
+                    if (item.id === updatedItem.id) {
+                        return updatedItem;
+                    }
+                    return item;
+                });
+                this.setState({
+                    data: updatedList,
+                    modalVenderAccesorio: false,
+                    form: { id: '', categoria: '', cantidad: '', costoProveedor: '', precio: '', marca: '' }
+                });
+            })
+            .catch(error => console.error(error));
+
+        const updatedData = this.state.data.map(registro => {
+            if (dato.id === registro.id) {
+                return { ...registro, cantidad: updatedCantidad };
+            }
+            return registro;
+        });
+
+        this.setState({ data: updatedData, modalVenderAccesorio: false });
+    };
+
+
+    venderDisplay = (form) => {
+
+    };
+
 
     render() {
-        const { showTable1, showTable2, data, modalVender, form } = this.state;
+        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form } = this.state;
 
         return (
             <Navigation>
                 <div className='button-alternar'>
-                    <div className='button-alternar-display'>
-                        <button name='buttonDisplay' onClick={this.handleShowTable1}>Mostrar Tabla Display</button>
+                    <div className={`button-alternar-display ${showTable1 ? 'selected' : ''}`}>
+                        <Button onClick={this.handleShowTable1}>Display</Button>
                     </div>
 
-                    <div className='button-alternar-articulo'>
-                        <button name='buttonArticulo' onClick={this.handleShowTable2}>Mostrar Tabla Articulo</button>
+                    <div className={`button-alternar-articulo ${showTable2 ? 'selected' : ''}`}>
+                        <Button onClick={this.handleShowTable2}>Articulo</Button>
                     </div>
                 </div>
 
@@ -92,7 +155,7 @@ class Contabilidad extends React.Component {
                             </thead>
                             <tbody>
                                 {data.map((elemento) => (
-                                    <tr key={elemento.id}>
+                                    <tr>
                                         <td>{elemento.id}</td>
                                         <td>{elemento.marca}</td>
                                         <td>{elemento.referencia}</td>
@@ -108,9 +171,11 @@ class Contabilidad extends React.Component {
                         <div className='cajas'>
                             <div className='caja-ganancia'>
                                 <p> Total ganancias: </p>
+                                <p>$0</p>
                             </div>
                             <div className='caja-dinero'>
                                 <p>Dinero en caja: </p>
+                                <p>$0</p>
                             </div>
                         </div>
                     </div>
@@ -125,50 +190,78 @@ class Contabilidad extends React.Component {
                                     <th>Categoria</th>
                                     <th>Marca</th>
                                     <th>Cantidad</th>
-                                    <th>Precio</th>
                                     <th>Costo Proveedor</th>
+                                    <th>Precio</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {data.map((elemento) => (
-                                    <tr key={elemento.id}>
+                                    <tr>
                                         <td>{elemento.id}</td>
                                         <td>{elemento.categoria}</td>
                                         <td>{elemento.marca}</td>
                                         <td>{elemento.cantidad}</td>
                                         <td>{elemento.precio}</td>
                                         <td>{elemento.costoProveedor}</td>
-                                        <td><Button color="none" className="btn-vender" onClick={() => this.mostrarModalVender(elemento)}>Vender</Button></td>
+                                        <td><Button color="none" className="btn-vender" onClick={() => this.mostrarModalVenderAccesorio(elemento)}>Vender</Button></td>
                                     </tr>
                                 ))}
                             </tbody>
-                            
+
                         </table>
                         <div className='cajas'>
                             <div className='caja-ganancia'>
                                 <p> Total ganancias: </p>
+                                <p>$0</p>
                             </div>
                             <div className='caja-dinero'>
                                 <p>Dinero en caja: </p>
+                                <p>$0</p>
                             </div>
                         </div>
                     </div>
                 )}
                 <Modal isOpen={modalVender}>
                     <ModalHeader>
-                        <div><h3>Vender</h3></div>
+                        <div><h3>Vender Display</h3></div>
                     </ModalHeader>
                     <ModalBody>
                         <FormGroup>
                             <label>
-                                Desea vender: {form.id}?
+                                Cuantos desea vender:
                             </label>
+                            <input
+                                className="form-control"
+                                name="venta"
+                                type="text" onChange={this.handleChange} value={this.state.form.venta}
+                            />
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="none" className='btn-aceptar1' onClick={() => this.vender(form)}>Aceptar</Button>
                         <Button color="none" className='btn-cancelar1' onClick={this.ocultarModalVender}>Cancelar</Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal isOpen={modalVenderAccesorio}>
+                    <ModalHeader>
+                        <div><h3>Vender Articulo</h3></div>
+                    </ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <label>
+                                Cuantos desea vender:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="venta"
+                                type="text" onChange={this.handleChange} value={this.state.form.venta}
+                            />
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="none" className='btn-aceptar1' onClick={() => this.vender(form)}></Button>
+                        <Button color="none" className='btn-cancelar1' onClick={this.ocultarModalVenderAccesorio}></Button>
                     </ModalFooter>
                 </Modal>
             </Navigation>

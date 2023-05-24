@@ -1,49 +1,114 @@
-.button-alternar-display{
-    padding: 1%;
-    
-}
-.button-alternar-articulo{
-    padding: 1%;
-    
+.button-alternar-display {
+  padding: 1%;
 }
 
-.button-alternar{
-    display: flex;
-    
+.button-alternar-display button {
+  background-color: #36a1a8;
 }
 
-.btn-vender{
-    content: "";
-    background-image: url("https://cdn-icons-png.flaticon.com/512/2953/2953536.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    margin-right: 8px;
-    font-size: 0;
+.button-alternar-display button:hover {
+
+  background-color: #36a1a8;
+  filter: brightness(1.1);
 }
+
+.button-alternar-display button:active {
+  background-color: #36a1a8;
+
+}
+
+.button-alternar-articulo {
+  padding: 1%;
+
+}
+
+.button-alternar-articulo button:hover {
+
+  background-color: #36a1a8;
+  filter: brightness(1.1);
+}
+
+.button-alternar-articulo button {
+  background-color: #36a1a8;
+}
+
+
+.button-alternar {
+  display: flex;
+
+}
+
+.button-alternar-display .btn {
+  font-size: 18px;
+  filter: brightness(70%);
+}
+
+.button-alternar-articulo .btn {
+  font-size: 18px;
+  filter: brightness(70%);
+}
+
+.button-alternar-articulo.selected .btn {
+  filter: brightness(1.1);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.button-alternar-display.selected .btn {
+  filter: brightness(1.1);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+
+
+.btn-vender {
+  content: "";
+  background-image: url("https://cdn-icons-png.flaticon.com/512/2953/2953536.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  font-size: 0;
+}
+
 .cajas {
-    display: flex;
-    padding: 2%;
-    width: 100%;
-    height: auto; /* En lugar de 120% para permitir que el contenido se ajuste */
-  }
-  
-  .caja-ganancia,
-  .caja-dinero {
-    margin: 1%;
-    background-color: white;
-    width: 40%;
-    height: auto; /* En lugar de 40% para permitir que el contenido se ajuste */
-  }
-  
-  .caja-ganancia p,
-  .caja-dinero p {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  
+  display: flex;
+  padding: 2%;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.caja-ganancia,
+.caja-dinero {
+  margin: 1%;
+  background-color: white;
+  width: 40%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  padding: 2%;
+}
+
+
+.caja-ganancia p,
+.caja-dinero p {
+  padding: 2%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonArticulo {
+  background-color: aqua;
+}
