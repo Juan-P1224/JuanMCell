@@ -118,7 +118,46 @@ class Contabilidad extends React.Component {
     };
 
 
-    venderDisplay = (form) => {
+    venderDisplay = (dato) => {
+
+        if (this.state.form.cantidad < this.state.form.venta) {
+            alert('Se esta solitando una venta que sobre pasa lo que esta en el inventario')
+            return
+        }
+        const updatedCantidad = dato.cantidad - dato.venta;
+        const updatedItem = { ...dato, cantidad: updatedCantidad };
+
+        fetch(`http://localhost:9000/display/${dato.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "cantidad": updatedItem.cantidad })
+        })
+            .then(response => response.json())
+            .then(updatedItem => {
+                const updatedList = this.state.data.map(item => {
+                    if (item.id === updatedItem.id) {
+                        return updatedItem;
+                    }
+                    return item;
+                });
+                this.setState({
+                    data: updatedList,
+                    modalVender: false,
+                    form: { id: '', referencia: '', cantidad: '', costoProveedor: '', precio: '', tipo: '' }
+                });
+            })
+            .catch(error => console.error(error));
+
+        const updatedData = this.state.data.map(registro => {
+            if (dato.id === registro.id) {
+                return { ...registro, cantidad: updatedCantidad };
+            }
+            return registro;
+        });
+
+        this.setState({ data: updatedData, modalVender: false });
 
     };
 
@@ -239,7 +278,7 @@ class Contabilidad extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="none" className='btn-aceptar1' onClick={() => this.vender(form)}>Aceptar</Button>
+                        <Button color="none" className='btn-aceptar1' onClick={() => this.venderDisplay(form)}>Aceptar</Button>
                         <Button color="none" className='btn-cancelar1' onClick={this.ocultarModalVender}>Cancelar</Button>
                     </ModalFooter>
                 </Modal>

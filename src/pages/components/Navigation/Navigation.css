@@ -51,6 +51,17 @@
 }
 
 .navbar .dropdown-toggle {
+  font-size: 120%;
   color: white;
   background-color: #009b8b;
+  font-weight: bold;
+}
+.navbar .dropdown-item  {
+  transform: scale(1);
+  text-decoration: none;
+}
+
+.navbar .dropdown-item:active  {
+  transform: scale(1);
+  background-color: aqua;
 }

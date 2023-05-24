@@ -24,12 +24,12 @@ const Navigation = (props) => {
         </NavbarBrand>
         <Nav className="mr-auto">
           <NavItem>
-            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-              <DropdownToggle caret>
+            <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} >
+              <DropdownToggle caret color=''>
                 Cuenta
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>
+                <DropdownItem >
                   <Link to="/">Cerrar sesión</Link>
                 </DropdownItem>
               </DropdownMenu>
