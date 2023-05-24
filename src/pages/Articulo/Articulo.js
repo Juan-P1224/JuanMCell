@@ -25,7 +25,8 @@ class Articulo extends React.Component {
     };
 
     componentDidMount() {
-        fetch('http://localhost:9001/api')
+        fetch('http://localhost:9001/api') 
+        
             .then(response => response.json())
             .then(data => this.setState({ data }));
     }
