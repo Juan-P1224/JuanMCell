@@ -334,7 +334,7 @@ class Contabilidad extends React.Component {
                     <ModalBody>
                         <FormGroup>
                             <label>
-                                Cuantos desea vender:
+                                ¿Cuántos desea vender?:
                             </label>
                             <input
                                 className="form-control"
@@ -355,7 +355,7 @@ class Contabilidad extends React.Component {
                     <ModalBody>
                         <FormGroup>
                             <label>
-                                Cuantos desea vender:
+                                ¿Cuántos desea vender?:
                             </label>
                             <input
                                 className="form-control"
