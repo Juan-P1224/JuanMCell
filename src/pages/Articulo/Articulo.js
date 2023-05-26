@@ -25,7 +25,7 @@ class Articulo extends React.Component {
     };
 
     componentDidMount() {
-        fetch('http://localhost:9001/api') 
+        fetch('https://api-juanmcell-production.up.railway.app/api') 
         
             .then(response => response.json())
             .then(data => this.setState({ data }));
@@ -57,7 +57,7 @@ class Articulo extends React.Component {
             body: JSON.stringify({"categoria": valorNuevo.categoria, "marca": valorNuevo.marca, "cantidad": valorNuevo.cantidad, "precio": valorNuevo.precio, "costoProveedor": valorNuevo.costoProveedor, "id": valorNuevo.id})
         }
 
-        fetch('http://localhost:9001/api', requestInit)
+        fetch('https://api-juanmcell-production.up.railway.app/api', requestInit)
         .then(res => res.json())
         const lista = [...this.state.data, valorNuevo]
         this.setState({ data: lista, modalInsertar: false })
@@ -100,7 +100,7 @@ class Articulo extends React.Component {
     }
 
     editar = (dato) => {
-        fetch(`http://localhost:9001/api/${this.state.form.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/api/${this.state.form.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ class Articulo extends React.Component {
     }
 
     eliminar = (dato) => {
-        fetch(`http://localhost:9001/api/${dato.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/api/${dato.id}`, {
             method: 'DELETE'
         })
             .then(response => response.json())

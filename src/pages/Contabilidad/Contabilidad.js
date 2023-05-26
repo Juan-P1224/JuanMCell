@@ -48,11 +48,11 @@ class Contabilidad extends React.Component {
             showTable2: false
         });
 
-        fetch('http://localhost:9001/display')
+        fetch('http://api-juanmcell-production.up.railway.app/display')
             .then(response => response.json())
             .then(data => this.setState({ data }));
 
-        fetch('http://localhost:9001/venta')
+        fetch('http://api-juanmcell-production.up.railway.app/venta')
             .then(response => response.json())
             .then(dinero => this.setState({ dinero }));
             this.listarDineroDisplay();
@@ -66,11 +66,11 @@ class Contabilidad extends React.Component {
             showTable2: true
         });
 
-        fetch('http://localhost:9001/api')
+        fetch('http://api-juanmcell-production.up.railway.app/api')
             .then(response => response.json())
             .then(data => this.setState({ data }));
 
-        fetch('http://localhost:9001/venta')
+        fetch('http://api-juanmcell-production.up.railway.app/venta')
             .then(response => response.json())
             .then(dinero => this.setState({ dinero }));
             this.listarDineroAccesorio();
