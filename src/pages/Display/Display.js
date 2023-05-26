@@ -23,7 +23,7 @@ class Display extends React.Component {
     };
 
     componentDidMount() {
-        fetch('http://api-juanmcell-production.up.railway.app/display')
+        fetch('https://api-juanmcell-production.up.railway.app/display')
             .then(response => response.json())
             .then(data => this.setState({ data }));
     }
@@ -55,7 +55,7 @@ class Display extends React.Component {
             "tipo":valorNuevo.tipo, "id": valorNuevo.id})
         }
 
-        fetch('http://api-juanmcell-production.up.railway.app/display', requestInit)
+        fetch('https://api-juanmcell-production.up.railway.app/display', requestInit)
         .then(res => res.json())
         const lista = [...this.state.data, valorNuevo]
         this.setState({ data: lista, modalInsertar: false })
@@ -92,7 +92,7 @@ class Display extends React.Component {
     }
    
     editar = (dato) => {
-        fetch(`http://api-juanmcell-production.up.railway.app/display/${this.state.form.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/display/${this.state.form.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ class Display extends React.Component {
         this.setState({ data: lista, modalEditar: false });
     }
     eliminar = (dato) => {
-        fetch(`http://api-juanmcell-production.up.railway.app/display/${dato.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/display/${dato.id}`, {
             method: 'DELETE'
         })
             .then(response => response.json())
