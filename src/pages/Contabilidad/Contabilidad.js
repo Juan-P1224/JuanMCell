@@ -126,7 +126,7 @@ class Contabilidad extends React.Component {
         this.state.beneficio = updatedGanancia;
         
 
-        fetch(`https://localhost:9001/venta/${idAgregar}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/venta/${idAgregar}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -135,7 +135,7 @@ class Contabilidad extends React.Component {
         })
         
 
-        fetch(`https://localhost:9001/api/${dato.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/api/${dato.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -185,7 +185,7 @@ class Contabilidad extends React.Component {
         this.state.beneficio = updatedGanancia;
         
 
-        fetch(`https://localhost:9001/venta/${idAgregar}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/venta/${idAgregar}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -193,7 +193,7 @@ class Contabilidad extends React.Component {
             body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
         })
 
-        fetch(`https://localhost:9001/display/${dato.id}`, {
+        fetch(`https://api-juanmcell-production.up.railway.app/display/${dato.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
