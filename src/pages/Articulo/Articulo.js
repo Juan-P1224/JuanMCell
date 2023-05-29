@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Articulo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../components/Navigation/Navigation';
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
-
 
 class Articulo extends React.Component {
 
@@ -25,8 +24,8 @@ class Articulo extends React.Component {
     };
 
     componentDidMount() {
-        fetch('https://api-juanmcell-production.up.railway.app/api') 
-        
+        fetch('https://api-juanmcell-production.up.railway.app/api')
+
             .then(response => response.json())
             .then(data => this.setState({ data }));
     }
@@ -38,31 +37,6 @@ class Articulo extends React.Component {
                 [e.target.name]: e.target.value,
             }
         });
-    }
-
-    handleSubmit = () => {
-        let valorNuevo = { ...this.state.form };
-        valorNuevo.id = this.state.idGenerado;
-
-        if(valorNuevo.categoria === '' || valorNuevo.marca === '' 
-            || valorNuevo.precio === '' || valorNuevo.cantidad === '' || 
-            valorNuevo.costoProveedor === ''){
-            alert('Todos los campos son obligatorios')
-            return
-        }
-
-        const requestInit = {
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({"categoria": valorNuevo.categoria, "marca": valorNuevo.marca, "cantidad": valorNuevo.cantidad, "precio": valorNuevo.precio, "costoProveedor": valorNuevo.costoProveedor, "id": valorNuevo.id})
-        }
-
-        fetch('https://api-juanmcell-production.up.railway.app/api', requestInit)
-        .then(res => res.json())
-        const lista = [...this.state.data, valorNuevo]
-        this.setState({ data: lista, modalInsertar: false })
-        this.setearAtributos()
-
     }
 
     mostrarModalInsertar = () => {
@@ -99,7 +73,61 @@ class Articulo extends React.Component {
         this.state.form.costoProveedor = '';
     }
 
+    handleSubmit = () => {
+        let valorNuevo = { ...this.state.form };
+        valorNuevo.id = this.state.idGenerado;
+        if (valorNuevo.categoria === '' || valorNuevo.marca === ''
+            || valorNuevo.precio === '' || valorNuevo.cantidad === '' ||
+            valorNuevo.costoProveedor === '') {
+            alert('Todos los campos son obligatorios')
+            return
+        }
+        if (valorNuevo.precio < 0 || valorNuevo.cantidad < 0 || valorNuevo.costoProveedor < 0) {
+            alert('Por favor ingresa valores positivos')
+            return
+        }
+        if (this.isLetterAttribute(valorNuevo.precio) || this.isLetterAttribute(valorNuevo.cantidad) ||
+            this.isLetterAttribute(valorNuevo.costoProveedor)) {
+            alert('Verifica que el valor ingresado sea un número en el precio, cantidad o costo proveedor.')
+            return
+        }
+        if (parseFloat(valorNuevo.costoProveedor) > parseFloat(valorNuevo.precio)){
+            alert('Debe ingresar un precio mayor al costo del proveedor.')
+            return
+        }
+        const requestInit = {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify({ "categoria": valorNuevo.categoria, "marca": valorNuevo.marca, "cantidad": valorNuevo.cantidad, "precio": valorNuevo.precio, "costoProveedor": valorNuevo.costoProveedor, "id": valorNuevo.id })
+        }
+        fetch('https://api-juanmcell-production.up.railway.app/api', requestInit)
+            .then(res => res.json())
+        const lista = [...this.state.data, valorNuevo]
+        this.setState({ data: lista, modalInsertar: false })
+        this.setearAtributos()
+    }
+
     editar = (dato) => {
+        
+        if (dato.categoria === '' || dato.marca === ''
+            || dato.precio === '' || dato.cantidad === '' ||
+            dato.costoProveedor === '') {
+            alert('Todos los campos son obligatorios')
+            return
+        }
+        if (dato.precio < 0 || dato.cantidad < 0 || dato.costoProveedor < 0) {
+            alert('Por favor ingresa valores positivos')
+            return
+        }
+        if (this.isLetterAttribute(dato.precio) || this.isLetterAttribute(dato.cantidad) ||
+            this.isLetterAttribute(dato.costoProveedor)) {
+            alert('Verifica que el valor ingresado sea un número en el precio, cantidad o costo proveedor.')
+            return
+        }
+        if (parseFloat(dato.costoProveedor) > parseFloat(dato.precio)){
+            alert('Debe ingresar un precio mayor al costo del proveedor.')
+            return
+        }
         fetch(`https://api-juanmcell-production.up.railway.app/api/${this.state.form.id}`, {
             method: 'PUT',
             headers: {
@@ -165,6 +193,10 @@ class Articulo extends React.Component {
         })
         this.state.idGenerado = idNuevo;
     }
+
+    isLetterAttribute = (dato) => {
+        return typeof dato === 'string' && isNaN(dato);
+    };
 
     render() {
         return (
@@ -266,7 +298,7 @@ class Articulo extends React.Component {
                                     <input
                                         className="form-control"
                                         name="precio"
-                                        type="text" onChange={this.handleChange}
+                                        type="text" onChange={this.valoresNumericos}
                                     />
                                 </FormGroup>
                             </ModalBody>

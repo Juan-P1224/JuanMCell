@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../components/Navigation/Navigation';
 
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
+import { isEmpty } from 'lodash';
 
 
 class Contabilidad extends React.Component {
@@ -55,9 +56,7 @@ class Contabilidad extends React.Component {
         fetch('https://api-juanmcell-production.up.railway.app/venta')
             .then(response => response.json())
             .then(dinero => this.setState({ dinero }));
-            this.listarDineroDisplay();
-
-    
+        this.listarDineroDisplay();
     };
 
     handleShowTable2 = () => {
@@ -73,7 +72,7 @@ class Contabilidad extends React.Component {
         fetch('https://api-juanmcell-production.up.railway.app/venta')
             .then(response => response.json())
             .then(dinero => this.setState({ dinero }));
-            this.listarDineroAccesorio();
+        this.listarDineroAccesorio();
     };
 
     mostrarModalVender = (registro) => {
@@ -113,18 +112,30 @@ class Contabilidad extends React.Component {
 
     vender = (dato) => {
         if (this.state.form.cantidad < this.state.form.venta) {
-            alert('Se esta solitando una venta que sobre pasa lo que esta en el inventario')
+            alert('Se está solicitando una venta que supera la cantidad disponible en el inventario.')
+            return
+        }
+        if (isEmpty(dato.venta)) {
+            alert('Todos los campos son obligatorios.')
+            return
+        }
+        if (dato.venta < 0) {
+            alert('Por favor ingresa valores positivos.')
+            return
+        }
+        if (this.isLetterAttribute(dato.venta)) {
+            alert('Verifica que el valor ingresado sea un número.')
             return
         }
         const updatedCantidad = dato.cantidad - dato.venta;
         const updatedItem = { ...dato, cantidad: updatedCantidad };
 
         let idAgregar = 2;
-        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta)+this.state.beneficio;
-        const updatedCaja = (dato.precio * dato.venta)+this.state.cajaDinero;
+        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta) + this.state.beneficio;
+        const updatedCaja = (dato.precio * dato.venta) + this.state.cajaDinero;
         this.state.cajaDinero = updatedCaja;
         this.state.beneficio = updatedGanancia;
-        
+
 
         fetch(`https://api-juanmcell-production.up.railway.app/venta/${idAgregar}`, {
             method: 'PUT',
@@ -133,7 +144,7 @@ class Contabilidad extends React.Component {
             },
             body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
         })
-        
+
 
         fetch(`https://api-juanmcell-production.up.railway.app/api/${dato.id}`, {
             method: 'PUT',
@@ -168,22 +179,31 @@ class Contabilidad extends React.Component {
         this.setState({ data: updatedData, modalVenderAccesorio: false });
     };
 
-
     venderDisplay = (dato) => {
-
         if (this.state.form.cantidad < this.state.form.venta) {
-            alert('Se esta solitando una venta que sobre pasa lo que esta en el inventario')
+            alert('Se está solicitando una venta que supera la cantidad disponible en el inventario.')
+            return
+        }
+        if (isEmpty(dato.venta)) {
+            alert('Todos los campos son obligatorios.')
+            return
+        }
+        if (dato.venta < 0) {
+            alert('Por favor ingresa valores positivos.')
+            return
+        }
+        if (this.isLetterAttribute(dato.venta)) {
+            alert('Verifica que el valor ingresado sea un número.')
             return
         }
         const updatedCantidad = dato.cantidad - dato.venta;
         const updatedItem = { ...dato, cantidad: updatedCantidad };
 
         let idAgregar = 1;
-        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta)+this.state.beneficio;
-        const updatedCaja = (dato.precio * dato.venta)+this.state.cajaDinero;
+        const updatedGanancia = ((dato.precio - dato.costoProveedor) * dato.venta) + this.state.beneficio;
+        const updatedCaja = (dato.precio * dato.venta) + this.state.cajaDinero;
         this.state.cajaDinero = updatedCaja;
         this.state.beneficio = updatedGanancia;
-        
 
         fetch(`https://api-juanmcell-production.up.railway.app/venta/${idAgregar}`, {
             method: 'PUT',
@@ -224,12 +244,14 @@ class Contabilidad extends React.Component {
         });
 
         this.setState({ data: updatedData, modalVender: false });
-
     };
 
+    isLetterAttribute = (dato) => {
+        return typeof dato === 'string' && isNaN(dato);
+    };
 
     render() {
-        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form, beneficio, cajaDinero} = this.state;
+        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form, beneficio, cajaDinero } = this.state;
 
         return (
             <Navigation>
