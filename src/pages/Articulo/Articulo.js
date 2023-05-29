@@ -92,7 +92,7 @@ class Articulo extends React.Component {
             return
         }
         if (parseFloat(valorNuevo.costoProveedor) > parseFloat(valorNuevo.precio)){
-            alert('Debe ingresar un precio mayor al costo del proveedor.')
+            alert('El precio debe ser mayor que el costo del proveedor.')
             return
         }
         const requestInit = {
@@ -125,7 +125,7 @@ class Articulo extends React.Component {
             return
         }
         if (parseFloat(dato.costoProveedor) > parseFloat(dato.precio)){
-            alert('Debe ingresar un precio mayor al costo del proveedor.')
+            alert('El precio debe ser mayor que el costo del proveedor.')
             return
         }
         fetch(`https://api-juanmcell-production.up.railway.app/api/${this.state.form.id}`, {
