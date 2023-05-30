@@ -298,7 +298,7 @@ class Articulo extends React.Component {
                                     <input
                                         className="form-control"
                                         name="precio"
-                                        type="text" onChange={this.valoresNumericos}
+                                        type="text" onChange={this.handleChange}
                                     />
                                 </FormGroup>
                             </ModalBody>
