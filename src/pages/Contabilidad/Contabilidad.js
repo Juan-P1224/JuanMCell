@@ -12,10 +12,11 @@ class Contabilidad extends React.Component {
         showTable2: false,
         data: [],
         dinero: [],
-        beneficio: '',
-        cajaDinero: '',
+        beneficio: 0.0,
+        cajaDinero: 0.0,
         modalVender: false,
         modalVenderAccesorio: false,
+        modalReiniciarContabilidad: false,
         form: {
             id: '',
             marca: '',
@@ -26,6 +27,7 @@ class Contabilidad extends React.Component {
             costoProveedor: 0.0,
             categoria: '',
             venta: 0,
+            dineroReinicio: 0.0,
         }
     };
 
@@ -98,13 +100,22 @@ class Contabilidad extends React.Component {
         })
     }
 
-    reiniciarCaja(){
+    reiniciarCaja() {
 
     }
 
     ocultarModalVender = () => {
         this.setState({ modalVender: false });
     };
+
+    mostrarModalReiniciarContabilidad = () => {
+        this.setState({ modalReiniciarContabilidad: true });
+    };
+
+    ocultarModalReiniciarContabilidad = () => {
+        this.setState({ modalReiniciarContabilidad: false });
+    };
+
     mostrarModalVenderAccesorio = (registro) => {
         this.setState({ modalVenderAccesorio: true, form: registro });
     };
@@ -249,12 +260,58 @@ class Contabilidad extends React.Component {
         this.setState({ data: updatedData, modalVender: false });
     };
 
+    reiniciarContabilidad = () => {
+        let dato = this.state.form.dineroReinicio;
+        if (isEmpty(dato)) {
+            alert('Todos los campos son obligatorios.')
+            return
+        }
+        if (dato < 0) {
+            alert('Por favor ingresa valores positivos.')
+            return
+        }
+        if (this.isLetterAttribute(dato)) {
+            alert('Verifica que el valor ingresado sea un número.')
+            return
+        }
+
+        if (this.state.showTable1) {
+            let idContabilidad = 1;
+            const updatedGanancia = 0.0;
+            const updatedCaja = dato;
+            this.state.cajaDinero = updatedCaja;
+            this.state.beneficio = updatedGanancia;
+            fetch(`https://api-juanmcell-production.up.railway.app/venta/${idContabilidad}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
+            }).then(response => response.json()); this.ocultarModalReiniciarContabilidad();
+        }
+        if (this.state.showTable2) {
+            let idContabilidad = 2;
+            const updatedGanancia = 0.0;
+            const updatedCaja = dato;
+            this.state.cajaDinero = updatedCaja;
+            this.state.beneficio = updatedGanancia;
+            fetch(`https://api-juanmcell-production.up.railway.app/venta/${idContabilidad}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "ganancia": updatedGanancia, "caja": updatedCaja })
+
+            }).then(response => response.json()); this.ocultarModalReiniciarContabilidad();
+        }
+    }
+
     isLetterAttribute = (dato) => {
         return typeof dato === 'string' && isNaN(dato);
     };
 
     render() {
-        const { showTable1, showTable2, data, modalVender, modalVenderAccesorio, form, beneficio, cajaDinero } = this.state;
+        const { showTable1, showTable2, data, modalVender, modalReiniciarContabilidad, modalVenderAccesorio, form, beneficio, cajaDinero } = this.state;
 
         return (
             <Navigation>
@@ -309,7 +366,7 @@ class Contabilidad extends React.Component {
                             </div>
                         </div>
                         <div className='reiniciar-container'>
-                            <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                            <Button className="buttonReiniciar " onClick={() => this.mostrarModalReiniciarContabilidad()}>Reiniciar Caja</Button>
                         </div>
                     </div>
                 )}
@@ -354,9 +411,9 @@ class Contabilidad extends React.Component {
                             </div>
                         </div>
                         <div className='reiniciar-container'>
-                            <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                            <Button className="buttonReiniciar " onClick={() => this.mostrarModalReiniciarContabilidad()}>Reiniciar Caja</Button>
                         </div>
-                        
+
                     </div>
                 )}
                 <Modal isOpen={modalVender}>
@@ -399,6 +456,27 @@ class Contabilidad extends React.Component {
                     <ModalFooter>
                         <Button color="none" className='btn-aceptar1' onClick={() => this.vender(form)}></Button>
                         <Button color="none" className='btn-cancelar1' onClick={this.ocultarModalVenderAccesorio}></Button>
+                    </ModalFooter>
+                </Modal>
+                <Modal isOpen={modalReiniciarContabilidad}>
+                    <ModalHeader>
+                        <div><h3>Reiniciar Contabilidad</h3></div>
+                    </ModalHeader>
+                    <ModalBody>
+                        <FormGroup>
+                            <label>
+                                ¿Con cuánto dinero en caja desea iniciar?:
+                            </label>
+                            <input
+                                className="form-control"
+                                name="dineroReinicio"
+                                type="text" onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="none" className='btn-aceptar1' onClick={() => this.reiniciarContabilidad()}>Aceptar</Button>
+                        <Button color="none" className='btn-cancelar1' onClick={this.ocultarModalReiniciarContabilidad}>Cancelar</Button>
                     </ModalFooter>
                 </Modal>
             </Navigation>
