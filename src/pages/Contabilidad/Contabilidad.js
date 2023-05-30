@@ -1,6 +1,5 @@
 import React from 'react';
 import './Contabilidad.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Navigation from '../components/Navigation/Navigation';
 
 import { Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter } from 'reactstrap';
@@ -309,7 +308,9 @@ class Contabilidad extends React.Component {
                                 <p>${cajaDinero}</p>
                             </div>
                         </div>
-                        <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                        <div className='reiniciar-container'>
+                            <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                        </div>
                     </div>
                 )}
 
@@ -352,7 +353,10 @@ class Contabilidad extends React.Component {
                                 <p>${cajaDinero}</p>
                             </div>
                         </div>
-                        <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                        <div className='reiniciar-container'>
+                            <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
+                        </div>
+                        
                     </div>
                 )}
                 <Modal isOpen={modalVender}>
