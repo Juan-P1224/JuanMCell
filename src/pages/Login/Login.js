@@ -18,7 +18,7 @@ const Login = () => {
         let ac = { user, password };
         let account = JSON.stringify(ac);
         localStorage.setItem('account', account);
-        navigate('/home'); // Navegar a /home sin pasar el estado de isLogin
+        navigate('/home');
       } else {
         setShowAlert(true);
       }
