@@ -99,6 +99,10 @@ class Contabilidad extends React.Component {
         })
     }
 
+    reiniciarCaja(){
+
+    }
+
     ocultarModalVender = () => {
         this.setState({ modalVender: false });
     };
@@ -305,6 +309,7 @@ class Contabilidad extends React.Component {
                                 <p>${cajaDinero}</p>
                             </div>
                         </div>
+                        <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
                     </div>
                 )}
 
@@ -347,6 +352,7 @@ class Contabilidad extends React.Component {
                                 <p>${cajaDinero}</p>
                             </div>
                         </div>
+                        <Button className="buttonReiniciar " onClick={() => this.reiniciarCaja()}>Reiniciar Caja</Button>
                     </div>
                 )}
                 <Modal isOpen={modalVender}>
