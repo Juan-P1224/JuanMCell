@@ -15,21 +15,27 @@ const Home = () => {
       navigate('/login'); // Redirigir al usuario a la página de inicio de sesión si no ha iniciado sesión
     }
 
+
     const timer = setTimeout(() => {
       setShowAlert(false);
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
-
-  return (
-    <div>
-      {showAlert && (
+  /*
+  {showAlert && (
         <div className="alert-container1">
           <p>Has iniciado sesión correctamente</p>
         </div>
       )}
+
+  */
+  return (
+    <div>
+      
+
       <Navigation>
+
         <div className="buttonhome-container">
           <a href="/display" className="btnhome btn-display">
             Display

@@ -41,7 +41,7 @@ const Navigation = (props) => {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>
-                  <Link to='/' onClick={handleLogout}>
+                  <Link to='/login' onClick={handleLogout}>
                     Cerrar sesión
                   </Link>
                 </DropdownItem>
